@@ -1,9 +1,9 @@
 # BCSMSSA Database Project
 
 ## Contributor requirements 
-Contributors should have the following installed:
-1. Python 3.5 or greater
-2. Django 
+Contributors should have the following installed:  
+1. Python 3.5 or greater  
+2. Django   
 3. Git
 
 ## Getting started
@@ -16,7 +16,8 @@ Contributors should have the following installed:
 ``http://127.0.0.1:8000/``
 
 ## How to contribute
-Note: If the change is only to a README file, commiting to the master branch will be fine
+Note: If the change is only to a README file, commiting to the master branch will be fine  
+
 1. Pick a task from the list of issues **OR** create a new issue if the task you want to complete is not listed 
 2. Create a branch to work on the task in  
 ``git branch <name_of_branch>``

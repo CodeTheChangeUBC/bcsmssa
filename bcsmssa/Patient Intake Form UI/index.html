@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Submit Timesheet</title>
+		<link rel="stylesheet" type="text/css" href="timesheet-form.css">
+
+		<script src="timesheet-scripts.js"></script>
+		<script src="jquery-1.9.1.min.js"></script>
+
+	</head>
+
+	<body>
+		<div class="main-content">
+		<form class="timesheet-form" method="GET" action="submission-success.html" name="timesheet" id="timesheet">
+			<div class="timesheet-form-title-row">
+				<h1>Submit Timesheet</h1>
+			</div>		
+				
+				<input type="email" name="email" required placeholder="Email:";/> <p>
+				<input type="number" name="time" required placeholder="Time: (to the nearest hour)" min="0" max="24"/> <p>
+				<textarea rows="4" cols="50" placeholder="Message (Optional):"></textarea> <br><br>
+
+			<h2> What type of work is this for?</h2><p>
+
+			<div align="left"> 
+            	<span>Time working on visual effects for movie</span>
+            	<input type="checkbox" name="checkbox"> <p>
+				<span>Time spent reviewing the work of a junior artist</span> 
+            	<input type="checkbox" name="checkbox"> <p>
+     		</div> 
+            
+			<button type="submit" id="btnSubmit";>Submit Form</button>
+			<button type="reset" id="btnReset">Reset</button>
+
+		</form>	
+		</div>
+    </body>
+</html> 
+
+
+

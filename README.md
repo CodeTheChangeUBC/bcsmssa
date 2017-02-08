@@ -4,8 +4,8 @@
 Contributors should have the following installed:  
 1. Python 3.5 or greater  
 2. Django   
-3. Git
-
+3. Git  
+[Todo list before contributing](https://github.com/CodeTheChangeUBC/bcsmssa/wiki/files/todo.pdf)
 ## Getting started
 1. Create a directory for the project and cd into it
 2. Run the following command to clone the repo  

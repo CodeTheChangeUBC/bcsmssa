@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <head>
+        <title>Profile</title>
+    </head>
+
+    <body>
+        <p>This is your profile, {{ user.username }}.</p>
+
+        {% if user.is_superuser %}
+            <p>Hello, admin.</p>
+        {% else %}
+            <p>Hello, ordinary visitor.</p>
+        {% endif %}
+
+        <p>List of users:</p>
+        {% for u in users %}
+            <li>{{ u.email }}</li>
+        {% endfor %}
+
+        <button id="1">B1</button>
+
+</form>
+    </body>
+    {% block javascript %}
+        <script>
+
+            $("#1").click(function () {
+                showAlert();
+            });
+             var postdata= {
+                  'csrfmiddlewaretoken': '{{ csrf_token }}'
+             }
+
+            function showAlert() {
+                $.post("../new_invite_key", postdata, function(response) {
+                    alert(response.success);
+                });
+            }
+      </script>
+    {% endblock %}
+</html>

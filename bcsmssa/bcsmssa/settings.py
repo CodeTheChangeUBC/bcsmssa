@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PROFILE_MODULE = 'stats.UserProfile'
 
 # Application definition
 

@@ -1,0 +1,19 @@
+<form action="/register" method="post" id="register" autocomplete="off">
+    {% csrf_token %}
+    <div class="fieldWrapper">
+        {{ form.email.errors }}
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password1.errors }}
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password2.errors }}
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+    </div>
+    <input type="submit" value="Register"/>
+</form>

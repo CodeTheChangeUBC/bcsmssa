@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
-=======
 from django.core.validators import validate_comma_separated_integer_list
 from django.contrib.auth.models import User
->>>>>>> Stashed changes
 from django.db import models
 import uuid
-
-<<<<<<< Updated upstream
-# Create your models here.
-=======
 
 class UserProfile( models.Model ):
     user = models.OneToOneField(User)
@@ -41,5 +34,7 @@ class Client_Current_Situation ( models.Model ):
     abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
 
 class InviteKey( models.Model ):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
->>>>>>> Stashed changes
+    id = models.CharField(max_length=6, primary_key=True)
+
+    def as_json(self):
+        return dict(code=self.id)

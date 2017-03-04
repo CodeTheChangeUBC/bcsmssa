@@ -1,18 +1,22 @@
+from django.utils.crypto import get_random_string
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.http import HttpResponse
 from stats.models import InviteKey
+import json
 
 @login_required
 def profile(request):
-
     # Send list of users to front end if the request came from the admin
     if request.user.is_superuser:
         users = User.objects.all()
-        return render(request, 'stats/profile.html', {'users' : users})
+        keys = InviteKey.objects.all()
+        data = {'users':users, 'keys':keys}
+        return render(request, 'stats/profile.html', data)
 
-    # Normal request
+    # Return regular page if not an admin request
     return render(request, 'stats/profile.html', {})
 
 @login_required
@@ -27,9 +31,27 @@ def form(request):
 def new_invite_key(request):
     # Only admin can create new invite keys
     if request.user.is_superuser:
+
+        # Handle a POST request, creates a new key
         if request.method == 'POST':
-            new_key = InviteKey.objects.create()
-            data = { 'success': new_key.id }
+            # Only allow a maximum of 10 active invitation keys
+            if InviteKey.objects.all().count() < 10:
+                new_key = InviteKey(id = get_random_string(length=6))
+                new_key.save();
+                data = { 'success': True, 'key': new_key.id }
+                return JsonResponse(data)
+            else:
+                data = { 'success': False}
+                return JsonResponse(data)
+
+        # Handle a DELETE request, deletes a specified key
+        if request.method == 'DELETE':
+            # Get key data
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            key_value = body['key_value']
+            InviteKey.objects.filter(id=key_value).delete()
+            data = { 'success': True, 'key': key_value}
             return JsonResponse(data)
 
     # Return bad request error if http request was not POST

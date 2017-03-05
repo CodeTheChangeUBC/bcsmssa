@@ -1,23 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.views.decorators import csrf
+from stats.models import UserProfile
 from django.contrib.auth.models import User
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import ugettext_lazy as _
 
-
-class MyRegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    name = forms.CharField(required=True)
-
-    class Meta:
-        model = User
-        fields = {'email', 'password1', 'password2'}
-
-    def save(self, commit=True):
-        user = super(MyRegistrationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.name = self.cleaned_data['first_name']
-
-        if commit:
-            user.save()
-
-        return user
+class UserCreationForm(UserCreationForm):
+    username = forms.EmailField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Email"))

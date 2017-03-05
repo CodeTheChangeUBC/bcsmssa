@@ -6,3 +6,4 @@ from django.utils.translation import ugettext_lazy as _
 
 class UserCreationForm(UserCreationForm):
     username = forms.EmailField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Email"))
+    invite_key = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength':75, 'required': "required"}), label=_("Invite Key"))

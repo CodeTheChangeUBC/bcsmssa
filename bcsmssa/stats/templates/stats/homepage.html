@@ -1,17 +1,14 @@
-<html>
+{% extends 'stats/base.html' %}
+
+{% block head %}
     <title>Homepage</title>
+{% endblock %}
 
-    <div>
-        <a href="/logout">logout</a>
-    </div>
+{% block body %}
+    Hello {{ user.username }}, this is the home page!
 
-    Hello world, this is the homepage!
-
-    <div>
-        <a href="/form">Submission form page</a>
-    </div>
-
-    <div>
-        <a href="/profile">My profile</a>
-    </div>
-</html>
+    <p>List of users:</p>
+    {% for u in users %}
+        <li>{{ u.username }}</li>
+    {% endfor %}
+{% endblock %}

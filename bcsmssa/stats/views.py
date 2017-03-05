@@ -8,28 +8,45 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from stats.forms import UserCreationForm
-from stats.models import InviteKey
+from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
 
 @login_required
+def homepage(request):
+    users = User.objects.all()
+    data = {'users':users}
+    return render(request, 'stats/homepage.html', data)
+
+@login_required
+def statistics(request):
+    client_count = Client.objects.all().count()
+    abuse_count = Abuse.objects.all().count()
+    ccs_count = Ccs.objects.all().count()
+
+    data = {
+        'client_count':client_count,
+        'abuse_count':abuse_count,
+        'ccs_count':ccs_count
+    }
+
+    return render(request, 'stats/statistics.html', data)
+
+@login_required
+def form(request):
+    return render(request, 'stats/form.html', {})
+
+@login_required
 def profile(request):
-    # Send list of users to front end if the request came from the admin
+    # Send list of keys to front end if the request came from the admin
     if request.user.is_superuser:
-        users = User.objects.all()
         keys = InviteKey.objects.all()
-        data = {'users':users, 'keys':keys}
+        data = {'keys':keys}
         return render(request, 'stats/profile.html', data)
 
     # Return regular page if not an admin request
     return render(request, 'stats/profile.html', {})
 
-@login_required
-def homepage(request):
-    return render(request, 'stats/homepage.html', {})
 
-@login_required
-def form(request):
-    return render(request, 'stats/form.html', {})
 
 
 
@@ -73,14 +90,22 @@ def user_register(request):
 
     # Handle registration form submission
     if request.method == "POST":
+        valid_key = False
         form = UserCreationForm(data=request.POST)
 
-        # Create a user if all the provided fields are correct
+        # Must call .is_valid() to access cleaned_data
         if form.is_valid():
-            user = form.save()
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
-            auth_login(request, user)
-            return HttpResponseRedirect('/')
+            print(form.cleaned_data)
+            key = form.cleaned_data['invite_key']
+
+            if InviteKey.objects.filter(id=key).exists():
+                InviteKey.objects.filter(id=key).delete()
+                user = form.save()
+                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+                auth_login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                form.add_error('invite_key', 'The provided key is not valid.')
         else:
             # Print errors if some field is wrong (shows erros in html too)
             print(form.errors)

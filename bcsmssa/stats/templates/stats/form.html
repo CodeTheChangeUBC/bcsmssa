@@ -1,13 +1,9 @@
+{% extends 'stats/base.html' %}
 
-<html>
+{% block head %}
     <title>Form page</title>
-    <div>
-        <a href="/logout">logout</a>
-    </div>
+{% endblock %}
 
-    Submission form page
-
-    <div>
-        <a href="/">Homepage</a>
-    </div>
-</html>
+{% block body %}
+    Hello {{ user.username }}, this is the form page! Add data to database here.
+{% endblock %}

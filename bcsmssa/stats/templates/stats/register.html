@@ -1,9 +1,16 @@
-
-<form method="post">
+<form action="/register/" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
+    <p><input type="submit" value="Register" /></p>
+    {% for field in form %}
+        <div> {{ field.errors }} </div>
+    {% endfor %}
 </form>
+
 <div>
-        <a href="/login">Login</a>
+    <a href="/login">Login</a>
 </div>

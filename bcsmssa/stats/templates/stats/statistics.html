@@ -1,0 +1,15 @@
+{% extends 'stats/base.html' %}
+
+{% block head %}
+    <title>Statistics page</title>
+{% endblock %}
+
+{% block body %}
+    Hello {{ user.username }}, this is the statistics page!
+
+    <p>Number of entries per model:
+        <li>Client: {{ client_count }} entries.</li>
+        <li>Abuse: {{ abuse_count }} entries.</li>
+        <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
+    </p>
+{% endblock %}

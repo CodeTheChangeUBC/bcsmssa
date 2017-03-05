@@ -1,11 +1,20 @@
 <title>Login</title>
 
 {% block login %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
+    <p><input type="submit" value="Login" /></p>
+</form>
+{% if form.errors %}
+<p>Invalid username and password combination. Please try again.</p>
+{% endif %}
+
 {% endblock %}
 
 <div>

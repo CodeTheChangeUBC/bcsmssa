@@ -5,10 +5,15 @@ from django.db import models
 
 class Client ( models.Model ):
     client_number = models.IntegerField()
-    date_of_birth = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
+    date_of_birth = models.DateField('Date of Birth')
+    #CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
     age = models.IntegerField()
     number_of_abuses = models.IntegerField()
     services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
+    def __str__(self):
+        return self.client_number, date_of_birth, age, number_of_abuses, services_required
+
+
 
 class Abuse ( models.Model ):
     start_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])

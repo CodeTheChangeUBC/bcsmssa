@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<html>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <head>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div>
+            <a href="/logout">logout</a>
+        </div>
+        <div>
+            <a href="/">Home</a>
+        </div>
+        <div>
+            <a href="/statistics">Statistics</a>
+        </div>
+        <div>
+            <a href="/form">Add data</a>
+        </div>
+        <div>
+            <a href="/profile">My profile</a>
+        </div>
+        {% block body %}
+        {% endblock %}
+    </body>
+    {% block javascript %}
+    {% endblock %}
+</html>

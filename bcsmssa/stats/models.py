@@ -1,19 +1,21 @@
 from django.core.validators import validate_comma_separated_integer_list
+from django.contrib.auth.models import User
 from django.db import models
+import uuid
 
-# Create your models here.
+class UserProfile( models.Model ):
+    user = models.OneToOneField(User)
 
-class Client ( models.Model ):
+class Client( models.Model ):
+    # set up client field
     client_number = models.IntegerField()
-    date_of_birth = models.DateField('Date of Birth')
-    #CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
+    date_of_birth = models.DateField('Date of Birth (yyyy-mm-dd)')
     age = models.IntegerField()
     number_of_abuses = models.IntegerField()
     services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
+    # output client info. when called  
     def __str__(self):
-        return self.client_number, date_of_birth, age, number_of_abuses, services_required
-
-
+        return str(self.client_number)
 
 class Abuse ( models.Model ):
     start_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
@@ -22,8 +24,10 @@ class Abuse ( models.Model ):
     reported_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
     family_context = models.CharField( max_length = 12, validators=[validate_comma_separated_integer_list] )
     client = models.ForeignKey( Client, on_delete = models.CASCADE )
+    def __str__(self):
+        return str(self.client)
 
-class Client_Current_Situation ( models.Model ):
+class Client_Current_Situation( models.Model ):
     medication1 = models.CharField(max_length=50)
     purpose1 = models.CharField(max_length=150)
     medication2 = models.CharField(max_length=50)
@@ -34,3 +38,9 @@ class Client_Current_Situation ( models.Model ):
     profession = models.CharField(max_length=50)
     in_treatment = models.BooleanField()
     abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
+
+class InviteKey( models.Model ):
+    id = models.CharField(max_length=6, primary_key=True)
+
+    def as_json(self):
+        return dict(code=self.id)

@@ -1,28 +1,36 @@
-{% load staticfiles %}
+{% load static %}
 <html>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <head>
+        <meta charset="UTF-8">
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+        <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
         {% block head %}
         {% endblock %}
     </head>
     <body>
-        <div>
-            <a href="/logout">logout</a>
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="http://bc-malesurvivors.com/">BCSMSSA</a>
+                    </div>
+
+                    <ul class="nav navbar-nav">
+                        <li {% if request.resolver_match.url_name == 'homepage' %}class="active"{% endif %}><a href="/" >Home</a></li>
+                        <li {% if request.resolver_match.url_name == 'statistics' %}class="active"{% endif %}><a href="/statistics">Statistics</a></li>
+                        <li {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}><a href="/form" >Add data</a></li>
+                        <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}><a href="/profile" >My Profile</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+            {% block body %}
+            {% endblock %}
         </div>
-        <div>
-            <a href="/">Home</a>
-        </div>
-        <div>
-            <a href="/statistics">Statistics</a>
-        </div>
-        <div>
-            <a href="/form">Add data</a>
-        </div>
-        <div>
-            <a href="/profile">My profile</a>
-        </div>
-        {% block body %}
-        {% endblock %}
     </body>
     {% block javascript %}
     {% endblock %}

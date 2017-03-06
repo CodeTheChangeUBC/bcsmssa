@@ -1,9 +1,189 @@
 {% extends 'stats/base.html' %}
 
 {% block head %}
-    <title>Form page</title>
+    <title>Patient Intake Form</title>
+    <link rel="stylesheet" href="css/style.css">
 {% endblock %}
 
 {% block body %}
-    Hello {{ user.username }}, this is the form page! Add data to database here.
+        <form class="well form-horizontal" action=" " method="post" id="patient_form">
+            {% csrf_token %}
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Patient Intake Form (Not working with backend yet)</legend>
+
+                <!-- Personal Information Section -->
+                <div class="information-group">Personal Information</div><br>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Client Number</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-user"></i>
+                </span>
+                            <input name="client_number" placeholder="Client Number" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Date of Birth</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                            <input name="date_of_birth" placeholder="MM/DD/YYYY" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Services Requested</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Victim Services">
+                                  Victim Services
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Individual Therapy">
+                                  Individual Therapy
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Group Therapy">
+                                  Group Therapy
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                  <label>
+                                    <input type="checkbox" value="Other">
+                                    Other:
+                                    <input type="text" name="otherChannel" placeholder="please specify" />
+                                  </label>
+
+                                <!-- TODO: if other, please specify section-->
+                                <!-- <div class="reveal-if-active">
+                      Anything you want in here.
+                  </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information Section -->
+                <br>
+                <div class="information-group">Additional Information</div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Referred By</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Web">
+                                  Web
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Social Service">
+                                  Social Service
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Health Practitioner">
+                                  Health Practitioner
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Alcoholics Anonymous">
+                                  Alcoholics Anonymous
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Drug Treatment Group">
+                                  Drug Treatment Group
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" value="Advertisement">
+                                  Advertisement
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <!-- TODO: if other, please specify section-->
+                                <label>
+                                  <input type="checkbox" value="Other">
+                                  Other:
+                                  <input type="text" name="otherChannel" placeholder="please specify" />
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <label class="col-md-4 control-label">In treatment with other health professionals?</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="form-group">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="yes/no" required>
+                          Yes
+                        </label>
+                      </br>
+                        &nbsp &nbsp <input type="text" name="otherChannel" placeholder="please specify" />
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="yes/no" required>
+                          No
+                        </label>
+                      </div>
+                    </div>
+
+                </div>
+    </div>
+
+
+    <!-- Button -->
+    <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success">
+                Save
+                <span class="glyphicon glyphicon-save"></span>
+              </button>
+        </div>
+    </div>
+
+    </fieldset>
+    </form>
+    </div>
+
+    <!-- /.container -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <script src="js/index.js"></script>
 {% endblock %}

@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as view_login
 from django.contrib.auth import authenticate, login as auth_login
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
-from stats.forms import UserCreationForm
+from stats.forms import UserCreationForm, PatientIntakeForm
 from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
 
@@ -19,21 +19,35 @@ def homepage(request):
 
 @login_required
 def statistics(request):
-    client_count = Client.objects.all().count()
-    abuse_count = Abuse.objects.all().count()
-    ccs_count = Ccs.objects.all().count()
+    data = {}
+    data['client_count'] = Client.objects.all().count()
+    data['abuse_count'] = Abuse.objects.all().count()
+    data['ccs_count'] = Ccs.objects.all().count()
+    data['client_numbers'] = Client.objects.values('client_number')
 
-    data = {
-        'client_count':client_count,
-        'abuse_count':abuse_count,
-        'ccs_count':ccs_count
-    }
 
     return render(request, 'stats/statistics.html', data)
 
 @login_required
 def form(request):
-    return render(request, 'stats/form.html', {})
+    data = {}
+    if request.method == 'POST':
+        form = PatientIntakeForm(data=request.POST)
+
+        if form.is_valid():
+            client = form.save()
+            request.session['temp_data'] = client.client_number
+            return redirect(request.META['HTTP_REFERER'], request.session['temp_data'])
+        else:
+            print(form.errors)
+    else:
+        if 'temp_data' in request.session:
+            data['previous_success'] = True
+            data['c_num'] = request.session['temp_data']
+        form = PatientIntakeForm()
+    data['form'] = form
+
+    return render(request, 'stats/form.html', data)
 
 @login_required
 def profile(request):
@@ -45,8 +59,6 @@ def profile(request):
 
     # Return regular page if not an admin request
     return render(request, 'stats/profile.html', {})
-
-
 
 
 
@@ -95,7 +107,6 @@ def user_register(request):
 
         # Must call .is_valid() to access cleaned_data
         if form.is_valid():
-            print(form.cleaned_data)
             key = form.cleaned_data['invite_key']
 
             if InviteKey.objects.filter(id=key).exists():

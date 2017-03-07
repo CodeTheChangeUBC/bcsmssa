@@ -7,9 +7,15 @@
 {% block body %}
     Hello {{ user.username }}, this is the statistics page!
 
-    <p>Number of entries per model:
+    <p>Number of entries per model:</p>
         <li>Client: {{ client_count }} entries.</li>
         <li>Abuse: {{ abuse_count }} entries.</li>
         <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
-    </p>
+
+    <div>
+        <p>Client numbers:</p>
+        {% for num in client_numbers %}
+            <li>#{{num.client_number}}</li>
+        {% endfor %}
+    </div>
 {% endblock %}

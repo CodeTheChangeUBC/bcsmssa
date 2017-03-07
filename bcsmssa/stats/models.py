@@ -7,9 +7,9 @@ class UserProfile( models.Model ):
 
 class Client ( models.Model ):
     client_number = models.IntegerField()
-    date_of_birth = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
-    age = models.IntegerField()
-    number_of_abuses = models.IntegerField()
+    date_of_birth = models.IntegerField()
+    age = models.IntegerField(null=True, blank=True, default=None)
+    number_of_abuses = models.IntegerField(null=True, blank=True, default=None)
     services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
 
 class Abuse ( models.Model ):

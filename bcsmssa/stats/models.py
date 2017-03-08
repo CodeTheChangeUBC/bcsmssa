@@ -39,7 +39,7 @@ class Client_Current_Situation( models.Model ):
     profession = models.CharField(max_length=50)
     in_treatment = models.BooleanField()
     def __str__(self):
-        returen str(self.client)
+        return str(self.client)
 
 
 

@@ -5,9 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as view_login
 from django.contrib.auth import authenticate, login as auth_login
+<<<<<<< HEAD
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from stats.forms import UserCreationForm, PatientIntakeForm
+=======
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.views.generic.edit import CreateView
+from stats.forms import UserCreationForm
+>>>>>>> cindyyu
 from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
 
@@ -19,17 +25,30 @@ def homepage(request):
 
 @login_required
 def statistics(request):
+<<<<<<< HEAD
     data = {}
     data['client_count'] = Client.objects.all().count()
     data['abuse_count'] = Abuse.objects.all().count()
     data['ccs_count'] = Ccs.objects.all().count()
     data['client_numbers'] = Client.objects.values('client_number')
 
+=======
+    client_count = Client.objects.all().count()
+    abuse_count = Abuse.objects.all().count()
+    ccs_count = Ccs.objects.all().count()
+
+    data = {
+        'client_count':client_count,
+        'abuse_count':abuse_count,
+        'ccs_count':ccs_count
+    }
+>>>>>>> cindyyu
 
     return render(request, 'stats/statistics.html', data)
 
 @login_required
 def form(request):
+<<<<<<< HEAD
     data = {}
     if request.method == 'POST':
         form = PatientIntakeForm(data=request.POST)
@@ -48,6 +67,9 @@ def form(request):
     data['form'] = form
 
     return render(request, 'stats/form.html', data)
+=======
+    return render(request, 'stats/form.html', {})
+>>>>>>> cindyyu
 
 @login_required
 def profile(request):
@@ -62,6 +84,11 @@ def profile(request):
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> cindyyu
 @login_required
 def invite_key(request):
     # Only admin can create new invite keys
@@ -107,6 +134,10 @@ def user_register(request):
 
         # Must call .is_valid() to access cleaned_data
         if form.is_valid():
+<<<<<<< HEAD
+=======
+            print(form.cleaned_data)
+>>>>>>> cindyyu
             key = form.cleaned_data['invite_key']
 
             if InviteKey.objects.filter(id=key).exists():

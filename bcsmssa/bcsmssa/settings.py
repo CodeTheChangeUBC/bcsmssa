@@ -27,11 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PROFILE_MODULE = 'stats.UserProfile'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'stats.apps.StatsConfig',
+    'stats',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

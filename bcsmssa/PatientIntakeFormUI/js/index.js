@@ -33,6 +33,7 @@
     FormStuff.init();
 
 
+
     $('#patient_form').bootstrapValidator({
         // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
         feedbackIcons: {
@@ -67,6 +68,16 @@
             }
         }
       })
+
+
+      $('form-check-input').change(function(){
+        if ($('form-check-input').val() == 'option1'){
+          $('#other-med').show();
+        }else{
+          $('#other-med').hide();
+        }
+      });
+
       .on('success.form.bv', function(e) {
         $('#success_message').slideDown({
           opacity: "show"

@@ -1,0 +1,65 @@
+{% extends 'stats/base.html' %}
+
+{% block head %}
+    <title>Profile</title>
+{% endblock %}
+
+{% block body %}
+    Hello {{ user.username }}, this is your profile page!
+
+    {% if user.is_superuser %}
+        <p>Currently logged in as the admin.</p>
+
+        <button id="addkeybtn">Add new invite code</button>
+        <p>Invite Keys:</p>
+        <div id="keys"></div>
+        {% for k in keys %}
+            <div class="{{ k.id }}_div">
+                <li>
+                    {{ k.id }}<button id="{{ k.id }}" class="del_btn">Delete key</button>
+                </li>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% if user.is_superuser %}
+{% block javascript %}
+    <script>
+        var postdata= { 'csrfmiddlewaretoken': '{{ csrf_token }}' }
+        $(document).on("click", "#addkeybtn", function() {
+            requestNewKey();
+        });
+
+        function requestNewKey() {
+            $.post("../invite_key", postdata, function(response) {
+                if (response.success) {
+                    var toAppend = '<div class="' + response.key + '_div"> <li>' + response.key + '<button id="' + response.key +'" class="del_btn">Delete key</button></li></div>';
+                    console.log(toAppend);
+                    $('#keys').append(toAppend);
+                }
+                else {
+                    alert("You have reached the maximum number of active keys.");
+                }
+            });
+        }
+
+        $(document).on("click", ".del_btn", function() {
+            $.ajax({
+                url: '../invite_key',
+                type: 'DELETE',
+                data: JSON.stringify({ 'key_value': this.id }),
+                contentType: 'application/json; charset=utf-8',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                },
+               success: function(response) {
+                   var class_to_remove = '.' + response.key + '_div';
+                   $(class_to_remove).remove();
+               }
+            });
+        });
+  </script>
+{% endblock %}
+{% endif %}

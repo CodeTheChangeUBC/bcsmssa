@@ -18,16 +18,17 @@ class Client( models.Model ):
         return str(self.client_number)
 
 class Abuse ( models.Model ):
+    client = models.ForeignKey( Client, on_delete = models.CASCADE )
     start_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
     stop_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
     role_of_abuser = models.IntegerField()
     reported_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
     family_context = models.CharField( max_length = 12, validators=[validate_comma_separated_integer_list] )
-    client = models.ForeignKey( Client, on_delete = models.CASCADE )
     def __str__(self):
         return str(self.client)
 
 class Client_Current_Situation( models.Model ):
+    client = models.ForeignKey( Client, on_delete = models.CASCADE )
     medication1 = models.CharField(max_length=50)
     purpose1 = models.CharField(max_length=150)
     medication2 = models.CharField(max_length=50)
@@ -37,7 +38,10 @@ class Client_Current_Situation( models.Model ):
     level_of_education = models.IntegerField()
     profession = models.CharField(max_length=50)
     in_treatment = models.BooleanField()
-    abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
+    def __str__(self):
+        returen str(self.client)
+
+
 
 class InviteKey( models.Model ):
     id = models.CharField(max_length=6, primary_key=True)

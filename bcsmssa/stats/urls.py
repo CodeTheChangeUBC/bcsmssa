@@ -7,10 +7,6 @@ urlpatterns = [
     url(r'^register/$', views.user_register, name='user_registration'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^statistics/$', views.statistics, name='statistics'),
-<<<<<<< HEAD
     url(r'^form/?$', views.form, name='form'),
-=======
-    url(r'^form/$', views.form, name='form'),
->>>>>>> cindyyu
     url(r'^invite_key$', views.invite_key),
 ]

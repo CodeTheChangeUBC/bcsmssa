@@ -7,7 +7,6 @@
 {% block body %}
     Hello {{ user.username }}, this is the statistics page!
 
-<<<<<<< HEAD
     <p>Number of entries per model:</p>
         <li>Client: {{ client_count }} entries.</li>
         <li>Abuse: {{ abuse_count }} entries.</li>
@@ -19,11 +18,4 @@
             <li>#{{num.client_number}}</li>
         {% endfor %}
     </div>
-=======
-    <p>Number of entries per model:
-        <li>Client: {{ client_count }} entries.</li>
-        <li>Abuse: {{ abuse_count }} entries.</li>
-        <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
-    </p>
->>>>>>> cindyyu
 {% endblock %}

@@ -13,9 +13,9 @@
         <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
 
     <div>
-        <p>Client numbers:</p>
+        <p>Clients:</p>
         {% for num in client_numbers %}
-            <li>#{{num.client_number}}</li>
+            <li><a href="/client/{{num.client_number}}">#{{num.client_number}}</a></li>
         {% endfor %}
     </div>
 {% endblock %}

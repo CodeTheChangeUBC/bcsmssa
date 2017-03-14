@@ -1,0 +1,11 @@
+{% extends 'stats/base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Profile - {{ user.username }}</title>
+{% endblock %}
+
+{% block body %}
+    <h3>{{ user.username }}</h3>
+{% endblock %}

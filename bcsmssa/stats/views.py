@@ -60,6 +60,28 @@ def profile(request):
     # Return regular page if not an admin request
     return render(request, 'stats/profile.html', {})
 
+def get_user_profile(request, username):
+    # If the requested profile is the currently logged in user then just
+    # redirect to their personal profile page
+    if request.user.username == username:
+        return redirect('/profile')
+
+    # Get the requested user from the data base and send that info to the
+    # user_profile template
+    data = {}
+    user = User.objects.get(username=username)
+    data['user'] = user
+    return render(request, 'stats/user_profile.html', data)
+
+def get_client_info(request, client_number):
+    # Get the requested client from the data base and send that info to the
+    # client_info template
+    data = {}
+    client = Client.objects.get(client_number=client_number)
+    data['client'] = client
+    return render(request, 'stats/client_info.html', data)
+
+
 
 
 @login_required

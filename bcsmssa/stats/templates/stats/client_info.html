@@ -1,0 +1,12 @@
+{% extends 'stats/base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Client {{ client.client_number }}</title>
+{% endblock %}
+
+{% block body %}
+    <h3>Client number: {{ client.client_number }}</h3>
+    <li>Date of Birth: {{ client.date_of_birth }}</li>
+{% endblock %}

@@ -10,6 +10,9 @@ from django.views.generic.edit import CreateView
 from stats.forms import UserCreationForm, PatientIntakeForm
 from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
+from graphos.sources.simple import SimpleDataSource
+from graphos.renderers.gchart import LineChart
+
 
 @login_required
 def homepage(request):
@@ -24,6 +27,19 @@ def statistics(request):
     data['abuse_count'] = Abuse.objects.all().count()
     data['ccs_count'] = Ccs.objects.all().count()
     data['client_numbers'] = Client.objects.values('client_number')
+    tempdata =  [
+        ['Year', 'Sales', 'Expenses'],
+        [2004, 1000, 400],
+        [2005, 1170, 460],
+        [2006, 660, 1120],
+        [2007, 1030, 540]
+    ]   
+    # DataSource object
+    data_source = SimpleDataSource(data=tempdata)
+    # Chart object
+    chart = LineChart(data_source)
+    data['chart'] = chart
+
     return render(request, 'stats/statistics.html', data)
 
 @login_required

@@ -17,15 +17,31 @@ class BootstrapModelForm(ModelForm):
                 'class': 'form-control'
             })
 
+
+SERVICES_REQUESTED_OPTIONS = ('Victim Services, Individual Therapy, Group Therapy, Other')
+
 class PatientIntakeForm(BootstrapModelForm):
     client_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Client Number'}), required=True)
-    date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'MM/DD/YYYY'}))
+    date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'YYYY-MM-DD'}))
+    #victim_services = forms.BooleanField(widget=forms.CheckboxInput)
+
+    OPTIONS = (
+        ("VS", "Victim Services"),
+        ("PH", "Placeholder")
+    )
+    victim_services = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class':'form-control'}), choices=OPTIONS)
+
 
     def __init__(self, *args, **kwargs):
         super(PatientIntakeForm, self).__init__(*args, **kwargs)
         self.fields['client_number'].label = "Client Number"
         self.fields['date_of_birth'].label = "Date of Birth"
+        self.fields['victim_services'].label = "Victim Services"
+        self.fields['individual_therapy'].label = "Individual Therapy"
+        self.fields['group_therapy'].label = "Group Therapy"
+        #if condition():
+         #   self.fields['victim_services'].initial = True
 
     class Meta:
         model = Client
-        fields = ['client_number','date_of_birth']
+        fields = ['client_number','date_of_birth','victim_services','individual_therapy', 'group_therapy']

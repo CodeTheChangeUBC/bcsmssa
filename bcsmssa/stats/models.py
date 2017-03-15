@@ -3,8 +3,11 @@ from django.contrib.auth.models import User
 from django.db import models
 import uuid
 
+
+
 class UserProfile( models.Model ):
     user = models.OneToOneField(User)
+
 
 class Client( models.Model ):
     # set up client field
@@ -12,7 +15,14 @@ class Client( models.Model ):
     date_of_birth = models.DateField('Date of Birth (yyyy-mm-dd)')
     age = models.IntegerField(null=True, blank=True, default=None)
     number_of_abuses = models.IntegerField(null=True, blank=True, default=None) 
-    services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
+    #services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
+    OPTIONS = (
+        ("VS", "Victim Services"),
+        ("PH", "Placeholder")
+    )
+    victim_services = models.CharField(choices=OPTIONS, max_length=50)
+    individual_therapy = models.BooleanField(blank=False, default= True)
+    group_therapy = models.BooleanField(blank=False, default= True, null=False)
     # output client info. when called  
     def __str__(self):
         return str(self.client_number)

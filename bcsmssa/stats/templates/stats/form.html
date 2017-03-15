@@ -54,25 +54,27 @@
                     <div class="input-group">
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Victim Services">
+                              <!--<input type="checkbox" id= "VS" value="Victim Services"> -->
+                                {{ form.victim_services }}
+                                {{ form.victim_services.errors }}
                               Victim Services
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Individual Therapy">
+                              <input type="checkbox" id= "Individual Therapy" value="Individual Therapy">
                               Individual Therapy
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Group Therapy">
+                              <input type="checkbox" id= "Group Therapy" value="Group Therapy">
                               Group Therapy
                             </label>
                         </div>
                         <div class="checkbox">
                               <label>
-                                <input type="checkbox" value="Other">
+                                <input type="checkbox" name= "ServiceRequested" value="Other">
                                 Other:
                                 <input type="text" name="otherChannel" placeholder="please specify" />
                               </label>

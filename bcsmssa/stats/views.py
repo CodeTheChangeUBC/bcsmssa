@@ -24,6 +24,11 @@ def statistics(request):
     data['abuse_count'] = Abuse.objects.all().count()
     data['ccs_count'] = Ccs.objects.all().count()
     data['client_numbers'] = Client.objects.values('client_number')
+    data['date_of_births'] = Client.objects.values('date_of_birth')
+    data['victim_services'] = Client.objects.values('victim_services')
+    data['individual_therapy'] = Client.objects.values('individual_therapy')
+    data['group_therapy'] = Client.objects.values('group_therapy')
+
     return render(request, 'stats/statistics.html', data)
 
 @login_required
@@ -31,10 +36,17 @@ def form(request):
     data = {}
     if request.method == 'POST':
         form = PatientIntakeForm(data=request.POST)
+        print(request.POST)
 
         if form.is_valid():
             client = form.save()
             request.session['temp_data'] = client.client_number
+            entered = request.POST.get('VS')
+            if not entered:
+               entered = 0
+            client.victim_services = entered
+            toSave = client
+            toSave.save()
             return redirect(request.META['HTTP_REFERER'], request.session['temp_data'])
         else:
             print(form.errors)

@@ -1,16 +1,32 @@
-<form action="/register/" method="post">
-    {% csrf_token %}
-    {% for field in form %}
-        <div class="fieldWrapper">
-            {{ field.label_tag }} {{ field }}
+{% load staticfiles %}
+<html>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'>
+        <link rel='stylesheet' type="text/css" href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+        <link rel="stylesheet" href="{% static 'stats/css/registration.css' %}">
+        <title>Register</title>
+    </head>
+    <body>
+        <div class="center-block">
+            <h2 class="text-center">BCSMSSA Database</h2>
+            <div class="formbackground rounddiv">
+                <form style="display: inline; margin: 0;" action="/register/" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="fieldWrapper">
+                            {{ field.label_tag }} {{ field }}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Register" />
+                    {% for field in form %}
+                        <div> {{ field.errors }} </div>
+                    {% endfor %}
+                </form>
+            </div>
+            Already have an account? <a href="/login">Login here.</a>
         </div>
-    {% endfor %}
-    <p><input type="submit" value="Register" /></p>
-    {% for field in form %}
-        <div> {{ field.errors }} </div>
-    {% endfor %}
-</form>
-
-<div>
-    <a href="/login">Login</a>
-</div>
+   </body>
+</html>

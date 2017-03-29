@@ -37,7 +37,10 @@ def statistics(request):
     # DataSource object
     data_source = SimpleDataSource(data=tempdata)
     # Chart object
-    chart = LineChart(data_source)
+    chart = LineChart(data_source,options={'title': "test stat plot", 
+                     'hAxis': {'title': 'XXXX (xx)'},
+        'vAxis': {'title': 'YYYY (yy)'},
+      })
     data['chart'] = chart
 
     return render(request, 'stats/statistics.html', data)

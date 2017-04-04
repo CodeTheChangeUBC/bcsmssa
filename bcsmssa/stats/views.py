@@ -12,7 +12,7 @@ from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as C
 import json
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers.gchart import LineChart
-
+from Crypto.Cipher import DES
 
 @login_required
 def homepage(request):
@@ -33,11 +33,11 @@ def statistics(request):
         [2005, 1170, 460],
         [2006, 660, 1120],
         [2007, 1030, 540]
-    ]   
+    ]
     # DataSource object
     data_source = SimpleDataSource(data=tempdata)
     # Chart object
-    chart = LineChart(data_source,options={'title': "test stat plot", 
+    chart = LineChart(data_source,options={'title': "test stat plot",
                      'hAxis': {'title': 'XXXX (xx)'},
         'vAxis': {'title': 'YYYY (yy)'},
       })
@@ -73,6 +73,8 @@ def profile(request):
     # Send list of keys to front end if the request came from the admin
     if request.user.is_superuser:
         keys = InviteKey.objects.all()
+        for key in keys:
+            key.id = decrypt(key.id)
         data = {'keys':keys}
         return render(request, 'stats/profile.html', data)
 
@@ -112,9 +114,11 @@ def invite_key(request):
         if request.method == 'POST':
             # Only allow a maximum of 10 active invitation keys
             if InviteKey.objects.all().count() < 10:
-                new_key = InviteKey(id = get_random_string(length=6))
+                key_value = get_random_string(length=6)
+                new_key = encrypt(key_value)
+                new_key = InviteKey(id = new_key)
                 new_key.save();
-                data = { 'success': True, 'key': new_key.id }
+                data = { 'success': True, 'key': key_value }
                 return JsonResponse(data)
             else:
                 data = { 'success': False}
@@ -126,7 +130,8 @@ def invite_key(request):
             body_unicode = request.body.decode('utf-8')
             body = json.loads(body_unicode)
             key_value = body['key_value']
-            InviteKey.objects.filter(id=key_value).delete()
+            key_value_enc = encrypt(key_value)
+            InviteKey.objects.filter(id=key_value_enc).delete()
             data = { 'success': True, 'key': key_value}
             return JsonResponse(data)
 
@@ -149,6 +154,7 @@ def user_register(request):
         # Must call .is_valid() to access cleaned_data
         if form.is_valid():
             key = form.cleaned_data['invite_key']
+            key = encrypt(key)
 
             if InviteKey.objects.filter(id=key).exists():
                 InviteKey.objects.filter(id=key).delete()
@@ -176,3 +182,29 @@ def user_login(request, **kwargs):
         return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         return view_login(request, **kwargs)
+
+
+
+
+# Secret key for encrypting the invite keys, should be replaced when deployed
+# since this is on github.
+key = "JPaHMxY4"
+padding_char = '&'
+import base64
+# Only use methods below for invite keys
+def encrypt(string):
+    # Pad to make length multiple of 8 as required by AES
+    pad = padding_char * (8-(len(string) % 8))
+
+    # Encrypt
+    obj=DES.new(key, DES.MODE_ECB)
+    cipher = obj.encrypt(string+pad)
+
+    return base64.b64encode(cipher)
+
+def decrypt(b64):
+    data = b64.b64decode(encoded)
+
+    # Decrypt
+    obj=DES.new(key, DES.MODE_ECB)
+    return obj.decrypt(data).decode("utf-8").strip(padding_char)

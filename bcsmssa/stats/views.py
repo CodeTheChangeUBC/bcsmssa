@@ -13,6 +13,7 @@ import json
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers.gchart import LineChart
 from Crypto.Cipher import DES
+import base64
 
 @login_required
 def homepage(request):
@@ -190,10 +191,10 @@ def user_login(request, **kwargs):
 # since this is on github.
 key = "JPaHMxY4"
 padding_char = '&'
-import base64
+
 # Only use methods below for invite keys
 def encrypt(string):
-    # Pad to make length multiple of 8 as required by AES
+    # Pad to make length multiple of 8 as required by DES encryption
     pad = padding_char * (8-(len(string) % 8))
 
     # Encrypt
@@ -203,7 +204,7 @@ def encrypt(string):
     return base64.b64encode(cipher)
 
 def decrypt(b64):
-    data = b64.b64decode(encoded)
+    data = base64.b64decode(b64)
 
     # Decrypt
     obj=DES.new(key, DES.MODE_ECB)

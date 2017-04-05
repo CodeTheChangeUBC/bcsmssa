@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    Hello {{ user.username }}, this is your profile page!
+<h2>{{ user.username }}, this is your profile page!</h2>
 
     {% if user.is_superuser %}
-        <p>Currently logged in as the admin.</p>
+        <p>Currently logged in as the admin.</p><br>
 
         <button id="addkeybtn">Add new invite code</button>
+<br><br>
         <p>Invite Keys:</p>
         <div id="keys"></div>
         {% for k in keys %}

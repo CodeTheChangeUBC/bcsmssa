@@ -1,0 +1,18 @@
+
+.center-block {
+  display: block;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 5%;
+}
+
+.element {
+  .center-block();
+}
+
+.formbackground {
+  background-color: #e8e8e8;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 10;
+}

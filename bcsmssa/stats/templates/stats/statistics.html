@@ -1,10 +1,14 @@
 {% extends 'stats/base.html' %}
 
 {% block head %}
+     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+     <script type="text/javascript">
+         google.load("visualization", "1", {packages:["corechart"]});
+     </script>
     <title>Statistics page</title>
 {% endblock %}
 
-{% block body %}
+{% block block %}
     Hello {{ user.username }}, this is the statistics page!
 
     <p>Number of entries per model:</p>
@@ -13,9 +17,16 @@
         <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
 
     <div>
-        <p>Client numbers:</p>
+        <p>Clients:</p>
         {% for num in client_numbers %}
             <li>#{{num.client_number}}</li>
-                <li> Are there victim services used: {{ victim_services.39}}</li>{% endfor %}
+                <li> Are there victim services used: {{ victim_services.39}}</li>
+
+            <li><a href="/client/{{num.client_number}}">#{{num.client_number}}</a></li>
+        {% endfor %}
+
     </div>
+    {{ chart.as_html }}
+
 {% endblock %}
+

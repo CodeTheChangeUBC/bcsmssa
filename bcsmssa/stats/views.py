@@ -10,6 +10,9 @@ from django.views.generic.edit import CreateView
 from stats.forms import UserCreationForm, PatientIntakeForm
 from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
+from graphos.sources.simple import SimpleDataSource
+from graphos.renderers.gchart import LineChart
+
 
 @login_required
 def homepage(request):
@@ -28,6 +31,21 @@ def statistics(request):
     data['victim_services'] = Client.objects.values('victim_services')
     data['individual_therapy'] = Client.objects.values('individual_therapy')
     data['group_therapy'] = Client.objects.values('group_therapy')
+    tempdata =  [
+        ['Year', 'Sales', 'Expenses'],
+        [2004, 1000, 400],
+        [2005, 1170, 460],
+        [2006, 660, 1120],
+        [2007, 1030, 540]
+    ]   
+    # DataSource object
+    data_source = SimpleDataSource(data=tempdata)
+    # Chart object
+    chart = LineChart(data_source,options={'title': "test stat plot", 
+                     'hAxis': {'title': 'XXXX (xx)'},
+        'vAxis': {'title': 'YYYY (yy)'},
+      })
+    data['chart'] = chart
 
     return render(request, 'stats/statistics.html', data)
 
@@ -71,6 +89,28 @@ def profile(request):
 
     # Return regular page if not an admin request
     return render(request, 'stats/profile.html', {})
+
+def get_user_profile(request, username):
+    # If the requested profile is the currently logged in user then just
+    # redirect to their personal profile page
+    if request.user.username == username:
+        return redirect('/profile')
+
+    # Get the requested user from the data base and send that info to the
+    # user_profile template
+    data = {}
+    user = User.objects.get(username=username)
+    data['user'] = user
+    return render(request, 'stats/user_profile.html', data)
+
+def get_client_info(request, client_number):
+    # Get the requested client from the data base and send that info to the
+    # client_info template
+    data = {}
+    client = Client.objects.get(client_number=client_number)
+    data['client'] = client
+    return render(request, 'stats/client_info.html', data)
+
 
 
 

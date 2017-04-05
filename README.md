@@ -4,7 +4,8 @@
 Contributors should have the following installed:  
 1. Python 3.5 or greater  
 2. Django   
-3. Git
+3. Graphos ``pip install django-graphos``
+4. Git
 
 ## Getting started
 1. Create a directory for the project and cd into it

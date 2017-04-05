@@ -9,6 +9,6 @@
 
     <p>List of users:</p>
     {% for u in users %}
-        <li>{{ u.username }}</li>
+        <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
     {% endfor %}
 {% endblock %}

@@ -32,6 +32,7 @@ AUTH_PROFILE_MODULE = 'stats.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [
+    'graphos',
     'stats',
     'django.contrib.admin',
     'django.contrib.auth',

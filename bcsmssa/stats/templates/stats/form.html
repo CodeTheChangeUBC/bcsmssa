@@ -55,20 +55,22 @@
                         <div class="checkbox">
                             <label>
                               <!--<input type="checkbox" id= "VS" value="Victim Services"> -->
-                                {{ form.victim_services }}
+    {% comment %}                            {{ form.victim_services }}
                                 {{ form.victim_services.errors }}
-                              Victim Services
+                              Victim Services{% endcomment %}
+                                <input type="checkbox" name='Victim Services' value="victim_services" id= "Victim Services">
+                                Victim Services
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" id= "Individual Therapy" value="Individual Therapy">
+                              <input type="checkbox" name='Individual Therapy' value="individual_therapy" id= "Individual Therapy">
                               Individual Therapy
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" id= "Group Therapy" value="Group Therapy">
+                              <input type="checkbox" name='Group Therapy' value="group_therapy" id= "Group Therapy">
                               Group Therapy
                             </label>
                         </div>
@@ -95,44 +97,44 @@
 
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Web">
+                              <input type="checkbox" name = 'Web' value="Web">
                               Web
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Social Service">
+                              <input type="checkbox" name='Social Service' value="Social Service">
                               Social Service
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Health Practitioner">
+                              <input type="checkbox" name='Health Practitioner' value="Health Practitioner">
                               Health Practitioner
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Alcoholics Anonymous">
+                              <input type="checkbox" name='Alcoholics Anonymous' value="Alcoholics Anonymous">
                               Alcoholics Anonymous
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Drug Treatment Group">
+                              <input type="checkbox" name='Drug Treatment Group' value="Drug Treatment Group">
                               Drug Treatment Group
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="Advertisement">
+                              <input type="checkbox" name='Advertisement' value="Advertisement">
                               Advertisement
                             </label>
                         </div>
                         <div class="checkbox">
                             <!-- TODO: if other, please specify section-->
                             <label>
-                              <input type="checkbox" value="Other">
+                              <input type="checkbox" name='OtherCheckbox' value="Other">
                               Other:
                               <input type="text" name="otherChannel" placeholder="please specify" />
                             </label>
@@ -151,7 +153,7 @@
                           Yes
                         </label>
                       </br>
-                        &nbsp &nbsp <input type="text" name="otherChannel" placeholder="please specify" />
+                          <input type="text" name="otherChannel" placeholder="please specify" />
                       </div>
                       <div class="radio">
                         <label>

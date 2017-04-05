@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 import uuid
 
-
-
 class UserProfile( models.Model ):
     user = models.OneToOneField(User)
 
@@ -20,12 +18,45 @@ class Client( models.Model ):
         ("VS", "Victim Services"),
         ("PH", "Placeholder")
     )
-    victim_services = models.CharField(choices=OPTIONS, max_length=50)
-    individual_therapy = models.BooleanField(blank=False, default= True)
-    group_therapy = models.BooleanField(blank=False, default= True, null=False)
+    #victim_services = models.CharField(choices=OPTIONS, max_length=50)
+    #individual_therapy = models.BooleanField(blank=False, default= True)
+    #group_therapy = models.BooleanField(blank=False, default= True, null=False)
     # output client info. when called  
     def __str__(self):
         return str(self.client_number)
+
+class ServicesRequested(models.Model):
+    victim_services = models.IntegerField()         #models.BooleanField(default=False)
+    individual_therapy = models.IntegerField()      #models.BooleanField(default=False)
+    group_therapy = models.IntegerField()           #models.BooleanField(default=False)
+
+    client1 = models.OneToOneField(
+         Client,
+         on_delete=models.CASCADE,
+         primary_key=True,
+    )
+
+    def __str__(self):
+        return str(self.client1.client_number)
+
+class ReferredBy(models.Model):
+    web = models.BooleanField(default=False, blank=True)
+    social_service = models.BooleanField(default=False, blank=True)
+    health_practitioner = models.BooleanField(default=False, blank=True)
+    alcoholics_anonymous = models.BooleanField(default=False, blank=True)
+    drug_treatment_group = models.BooleanField(default=False, blank=True)
+    advertisement = models.BooleanField(default=False, blank=True)
+    other2 = models.CharField(max_length=30, blank=True)
+
+    client1 = models.OneToOneField(
+        Client,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+
+    def __str__(self):
+        return str(self.client1.client_number)
+
 
 class Abuse ( models.Model ):
     client = models.ForeignKey( Client, on_delete = models.CASCADE )

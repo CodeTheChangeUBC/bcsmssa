@@ -1,9 +1,11 @@
-from stats.models import UserProfile, Client
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
+from stats.models import UserProfile, Client
+from stats
+
 
 class UserCreationForm(UserCreationForm):
     username = forms.EmailField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Email"))

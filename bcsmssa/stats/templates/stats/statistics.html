@@ -22,7 +22,8 @@
             <li><a href="/client/{{num.client_number}}">#{{num.client_number}}</a></li>
         {% endfor %}
     </div>
-    {{ chart.as_html }}
+    {{ linechart.as_html }}
+    {{ barchart.as_html }}
 
 {% endblock %}
 

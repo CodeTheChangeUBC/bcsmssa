@@ -11,7 +11,8 @@ from stats.forms import UserCreationForm, PatientIntakeForm
 from stats.models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 import json
 from graphos.sources.simple import SimpleDataSource
-from graphos.renderers.gchart import LineChart
+from graphos.sources.model import ModelDataSource
+from graphos.renderers.gchart import LineChart,BarChart
 
 
 @login_required
@@ -27,21 +28,24 @@ def statistics(request):
     data['abuse_count'] = Abuse.objects.all().count()
     data['ccs_count'] = Ccs.objects.all().count()
     data['client_numbers'] = Client.objects.values('client_number')
-    tempdata =  [
-        ['Year', 'Sales', 'Expenses'],
-        [2004, 1000, 400],
-        [2005, 1170, 460],
-        [2006, 660, 1120],
-        [2007, 1030, 540]
-    ]   
-    # DataSource object
-    data_source = SimpleDataSource(data=tempdata)
-    # Chart object
-    chart = LineChart(data_source,options={'title': "test stat plot", 
+    temp = Client.objects.values_list('client_number',flat=True)
+
+    # DataSource object - explore how to use data from data base to make a plot
+    queryset = Client.objects.all()
+    data_source = ModelDataSource(queryset,fields=['client_number','age', 'number_of_abuses'])
+   # Line chart object
+    linechart = LineChart(data_source,options={'title': "test stat plot", 
                      'hAxis': {'title': 'XXXX (xx)'},
         'vAxis': {'title': 'YYYY (yy)'},
       })
-    data['chart'] = chart
+    data['linechart'] = linechart
+
+    # Bar chart object
+    barchart = BarChart(data_source,options={'title': "test stat plot",
+                    'hAxis': {'title': 'XXXX (xx)'},
+        'vAxis': {'title': 'YYYY (yy)'},
+      })
+    data['barchart'] = barchart
 
     return render(request, 'stats/statistics.html', data)
 

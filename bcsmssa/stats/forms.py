@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
-from stats.models import UserProfile, Client, ServicesRequested, ReferredBy
+from .models import UserProfile, Client, ServicesRequested, ReferredBy
 
 
 
@@ -19,6 +19,28 @@ class BootstrapModelForm(ModelForm):
                 'class': 'form-control'
             })
 
+class patientForm(forms.Form):
+    """ 
+    Client Info
+    """
+    client_number       = forms.CharField(widget=forms.TextInput(
+                                            attrs={'class':'form-control','placeholder':'Client Number'}), 
+                                            required=True)
+    date_of_birth       = forms.CharField(widget=forms.TextInput(
+                                            attrs={'class':'form-control','placeholder':'MM/DD/YYYY'}))
+    age                 = forms.IntegerField(required=False)
+    number_of_abuses    = forms.IntegerField(required=False)
+
+    """
+    Services Provided info
+    """
+    victim_services     = forms.BooleanField(required=False)         
+    individual_therapy  = forms.BooleanField(required=False)      
+    group_therapy       = forms.BooleanField(required=False)     
+
+    
+
+    
 class PatientIntakeForm(BootstrapModelForm):
     client_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Client Number'}), required=True)
     date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'MM/DD/YYYY'}))

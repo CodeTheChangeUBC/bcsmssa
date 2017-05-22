@@ -18,6 +18,14 @@ class Client( models.Model ):
     def __str__(self):
         return str(self.client_number)
 
+    @classmethod
+    def create(cls, num, dob, age, num_abuses):
+        client = Client(client_number=num, 
+                        date_of_birth=dob, 
+                        age=age, 
+                        number_of_abuses=num_abuses)
+        client.save()
+
 class ServicesRequested(models.Model):
     victim_services = models.IntegerField()         #models.BooleanField(default=False)
     individual_therapy = models.IntegerField()      #models.BooleanField(default=False)
@@ -31,6 +39,13 @@ class ServicesRequested(models.Model):
 
     def __str__(self):
         return str(self.client1.client_number)
+
+    @classmethod
+    def create(cls, vs, it, gt):
+        sr = ServicesRequested(victim_services=vs,
+                                individual_therapy=it, 
+                                group_therapy=gt)
+        sr.save()
 
 class ReferredBy(models.Model):
     web = models.BooleanField(default=False, blank=True)
@@ -49,6 +64,7 @@ class ReferredBy(models.Model):
 
     def __str__(self):
         return str(self.client1.client_number)
+
 
 class Abuse ( models.Model ):
     client = models.ForeignKey( Client, on_delete = models.CASCADE )

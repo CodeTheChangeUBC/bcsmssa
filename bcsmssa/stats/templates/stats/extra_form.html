@@ -1,0 +1,186 @@
+{% block body %}
+    {% if previous_success %}
+        <li>Successfully added patient #{{c_num}}</li>
+    {% endif %}
+
+
+     <form class="well form-horizontal" method="post" id="patient_form">
+        <fieldset>
+            {% csrf_token %}
+
+            <!-- Form Name -->
+            <legend>Patient Intake Form (Partially working with backend)</legend>
+
+            <!-- Personal Information Section -->
+            <div class="information-group">Personal Information</div><br>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">{{form.client_number.label}}</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        {{ form.client_number }}
+                    </div>
+                    {{ form.client_number.errors }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">{{form.date_of_birth.label}}</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                        {{ form.date_of_birth }}
+                    </div>
+                    {{ form.date_of_birth.errors }}
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">Services Requested</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Victim Services' value="victim_services">
+                              Victim Services
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Individual Therapy' value="individual_therapy">
+                              Individual Therapy
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Group Therapy' value="group_therapy">
+                              Group Therapy
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                              <label>
+                                <input type="checkbox" name= "ServiceRequested" value="Other">
+                                Other:
+                                <input type="text" name="otherChannel" placeholder="please specify" />
+                              </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <br>
+            <div class="information-group">Additional Information</div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">Referred By</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name = 'Web' value="Web">
+                              Web
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Social Service' value="Social Service">
+                              Social Service
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Health Practitioner' value="Health Practitioner">
+                              Health Practitioner
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Alcoholics Anonymous' value="Alcoholics Anonymous">
+                              Alcoholics Anonymous
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Drug Treatment Group' value="Drug Treatment Group">
+                              Drug Treatment Group
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name='Advertisement' value="Advertisement">
+                              Advertisement
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <!-- TODO: if other, please specify section-->
+                            <label>
+                              <input type="checkbox" name="OtherCheckbox" value="Other">
+                              Other: {{form3.other2}}
+                              <!--<input type="text" name="otherChannel" placeholder="please specify" />-->
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label">Current Situation</label>
+              <label>Medication 1</label>
+              <input type="text" name="medication" value="{{ form.medication1 }}">
+                    
+              {{ form.medication1 }}
+              {{ form.purpose1 }}
+              {{ form.medication2 }}
+              {{ form.purpose2 }}
+              {{ form.sexual_orientation }}
+              {{ form.income }}
+              {{ form.level_of_education }}
+              {{ form.profession }}
+              {{ form.in_treatment }}
+              {{ form.abuse }}
+            </div>
+
+            <label class="col-md-4 control-label">In treatment with other health professionals?</label>
+            <div class="col-md-4 inputGroupContainer">
+                <div class="form-group">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="yes/no" required>
+                          Yes
+                        </label>
+                      </br>
+                        <input type="text" name="otherChannel" placeholder="please specify" />
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="yes/no" required>
+                          No
+                        </label>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success">
+                        Save
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+ <!-- Not working <script src="js/index.js"></script> -->

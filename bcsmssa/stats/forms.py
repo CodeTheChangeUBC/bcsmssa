@@ -3,8 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import UserProfile, Client, ServicesRequested, ReferredBy
-
+from .models import UserProfile, Client, ServicesRequested, Referral
 
 
 class UserCreationForm(UserCreationForm):
@@ -27,7 +26,7 @@ class patientForm(forms.Form):
                                             attrs={'class':'form-control','placeholder':'Client Number'}), 
                                             required=True)
     date_of_birth       = forms.CharField(widget=forms.TextInput(
-                                            attrs={'class':'form-control','placeholder':'MM/DD/YYYY'}))
+                                            attrs={'class':'form-control','placeholder':'YYYY-MM-DD'}))
     age                 = forms.IntegerField(required=False)
     number_of_abuses    = forms.IntegerField(required=False)
 
@@ -37,6 +36,28 @@ class patientForm(forms.Form):
     victim_services     = forms.BooleanField(required=False)         
     individual_therapy  = forms.BooleanField(required=False)      
     group_therapy       = forms.BooleanField(required=False)     
+
+    """
+    Referral Info
+    """
+    web                 = forms.BooleanField(required=False)
+    social_service      = forms.BooleanField(required=False)
+    health_practitioner = forms.BooleanField(required=False)
+    alcoholics_anonymous= forms.BooleanField(required=False)
+    drug_treatment_group= forms.BooleanField(required=False)
+    advertisement       = forms.BooleanField(required=False)
+    other_referral      = forms.CharField(max_length=30, required=False)
+
+    """
+    Abuse Info
+    """
+    start_date          = forms.CharField( max_length = 3)
+    stop_date           = forms.CharField( max_length = 3)
+    role_of_abuser      = forms.IntegerField()
+    reported_date       = forms.CharField( max_length = 3)
+    family_context      = forms.CharField( max_length = 12)
+
+
 
     
 
@@ -92,5 +113,5 @@ class ReferredByForm(BootstrapModelForm):
         self.fields['other2'].label = "Other"
 
     class Meta:
-        model = ReferredBy
+        model = Referral
         exclude = ['client1']

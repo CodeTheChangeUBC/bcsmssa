@@ -41,22 +41,24 @@ class ServicesRequested(models.Model):
         return str(self.client1.client_number)
 
     @classmethod
-    def create(cls, vs, it, gt):
+    def create(cls, vs, it, gt, client):
         sr = ServicesRequested(victim_services=vs,
                                 individual_therapy=it, 
-                                group_therapy=gt)
+                                group_therapy=gt, 
+                                client1 = client)
+
         sr.save()
 
-class ReferredBy(models.Model):
+class Referral(models.Model):
     web = models.BooleanField(default=False, blank=True)
     social_service = models.BooleanField(default=False, blank=True)
     health_practitioner = models.BooleanField(default=False, blank=True)
     alcoholics_anonymous = models.BooleanField(default=False, blank=True)
     drug_treatment_group = models.BooleanField(default=False, blank=True)
     advertisement = models.BooleanField(default=False, blank=True)
-    other2 = models.CharField(max_length=30, blank=True)
+    other = models.CharField(max_length=30, blank=True)
 
-    client1 = models.OneToOneField(
+    client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
         primary_key=True,
@@ -64,6 +66,18 @@ class ReferredBy(models.Model):
 
     def __str__(self):
         return str(self.client1.client_number)
+
+    @classmethod
+    def create(cls, web, ss, hp, aa, dtg, ad, other, client):
+        referral = Referral(web=web, 
+                            social_service=ss,
+                            health_practitioner=hp,
+                            alcoholics_anonymous=aa,
+                            drug_treatment_group=dtg,
+                            advertisement=ad,
+                            other=other,
+                            client=client)
+        referral.save()
 
 
 class Abuse ( models.Model ):
@@ -73,8 +87,19 @@ class Abuse ( models.Model ):
     role_of_abuser = models.IntegerField()
     reported_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
     family_context = models.CharField( max_length = 12, validators=[validate_comma_separated_integer_list] )
+
     def __str__(self):
         return str(self.client)
+
+    @classmethod
+    def create(cls, client, start, stop, role, rep_date, context):
+        abuse = Abuse(client=client, 
+                        start_date=start,
+                        stop_date=stop,
+                        role_of_abuser=role,
+                        reported_date=rep_date,
+                        family_context=context)
+        abuse.save()
 
 class Client_Current_Situation( models.Model ):
     medication1 = models.CharField(max_length=50)

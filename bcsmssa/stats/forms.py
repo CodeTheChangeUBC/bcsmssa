@@ -57,6 +57,19 @@ class patientForm(forms.Form):
     reported_date       = forms.CharField( max_length = 3)
     family_context      = forms.CharField( max_length = 12)
 
+    """
+    Sexual Orientation Info
+    """
+    medication1         = forms.CharField(max_length=50)
+    purpose1            = forms.CharField(max_length=150)
+    medication2         = forms.CharField(max_length=50)
+    purpose2            = forms.CharField(max_length=150)
+    sexual_orientation  = forms.IntegerField()
+    income              = forms.IntegerField()
+    level_of_education  = forms.IntegerField()
+    profession          = forms.CharField(max_length=50)
+    in_treatment        = forms.BooleanField()
+
 
 
     

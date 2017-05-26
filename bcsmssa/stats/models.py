@@ -112,8 +112,23 @@ class Client_Current_Situation( models.Model ):
     profession = models.CharField(max_length=50)
     in_treatment = models.BooleanField()
     abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
+
     def __str__(self):
         return str(self.abuse)
+
+    @classmethod
+    def create(cls, med1, purp1, med2, purp2, so, income, loe, prof, treament, abuse):
+        sitch = Client_Current_Situation(medication1=med1, 
+                                         purpose1=purp1, 
+                                         medication2=med2,
+                                         purpose2=purp2,
+                                         sexual_orientation=so,
+                                         income=income, 
+                                         level_of_education=loe,
+                                         profession=prof, 
+                                         in_treatment=treament, 
+                                         abuse=abuse)
+        sitch.save()
 
 class InviteKey( models.Model ):
     id = models.CharField(max_length=6, primary_key=True)

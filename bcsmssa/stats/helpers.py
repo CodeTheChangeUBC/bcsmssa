@@ -9,7 +9,10 @@ def create_models(form):
 	client = Client.objects.filter(client_number=form.cleaned_data['client_number'])[0]
 	create_services(form, client)
 	create_referral(form, client)
+	# Create abuse before getting abuse
 	create_abuse(form, client)
+	abuse = Abuse.objects.filter(client=client)[0]
+	create_current_situation(form, abuse)
 
 
 def create_client(form):
@@ -49,14 +52,34 @@ def create_abuse(form, client):
 	"""
 	Create new abuse model base off form data
 	"""
-	start_date          = forms.cleaned_data['start_date']
-	stop_date           = forms.cleaned_data['stop_date']
-	role_of_abuser      = forms.cleaned_data['role_of_abuser']
-	reported_date       = forms.cleaned_data['reported_abuse']
-	family_context      = forms.cleaned_data['family_context']
+	start_date          = form.cleaned_data['start_date']
+	stop_date           = form.cleaned_data['stop_date']
+	role_of_abuser      = form.cleaned_data['role_of_abuser']
+	reported_date       = form.cleaned_data['reported_date']
+	family_context      = form.cleaned_data['family_context']
 	Abuse.create(client,start_date,stop_date,role_of_abuser,reported_date,family_context)
 
-
-
-
-
+def create_current_situation(form, abuse):
+	"""
+	Create client_current_situation object from form data
+	"""
+	medication1 		= form.cleaned_data['medication1']	
+	purpose1 			= form.cleaned_data['purpose1']
+	medication2 		= form.cleaned_data['medication2']
+	purpose2 			= form.cleaned_data['purpose2']
+	sexual_orientation 	= form.cleaned_data['sexual_orientation']
+	income 				= form.cleaned_data['income']
+	level_of_education 	= form.cleaned_data['level_of_education']
+	profession 			= form.cleaned_data['profession']
+	in_treatment 		= form.cleaned_data['in_treatment']
+	Client_Current_Situation.create(medication1, 
+									purpose1, 
+									medication2,
+									purpose2, 
+									sexual_orientation,
+									income, 
+									level_of_education, 
+									profession, 
+									in_treatment, 
+									abuse)
+   

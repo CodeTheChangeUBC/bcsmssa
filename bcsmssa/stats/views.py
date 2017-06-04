@@ -7,7 +7,7 @@ from django.contrib.auth.views import login as view_login
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
-from .forms import UserCreationForm, PatientIntakeForm, ServicesRequiredForm, ReferredByForm, patientForm
+from .forms import patientForm
 from .models import InviteKey, Client, Abuse, Client_Current_Situation as Ccs
 from .helpers import create_models
 import json

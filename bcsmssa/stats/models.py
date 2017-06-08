@@ -18,6 +18,14 @@ class Client( models.Model ):
     def __str__(self):
         return str(self.client_number)
 
+    @classmethod
+    def create(cls, num, dob, age, num_abuses):
+        client = Client(client_number=num, 
+                        date_of_birth=dob, 
+                        age=age, 
+                        number_of_abuses=num_abuses)
+        client.save()
+
 class ServicesRequested(models.Model):
     victim_services = models.IntegerField()         #models.BooleanField(default=False)
     individual_therapy = models.IntegerField()      #models.BooleanField(default=False)
@@ -32,16 +40,25 @@ class ServicesRequested(models.Model):
     def __str__(self):
         return str(self.client1.client_number)
 
-class ReferredBy(models.Model):
+    @classmethod
+    def create(cls, vs, it, gt, client):
+        sr = ServicesRequested(victim_services=vs,
+                                individual_therapy=it, 
+                                group_therapy=gt, 
+                                client1 = client)
+
+        sr.save()
+
+class Referral(models.Model):
     web = models.BooleanField(default=False, blank=True)
     social_service = models.BooleanField(default=False, blank=True)
     health_practitioner = models.BooleanField(default=False, blank=True)
     alcoholics_anonymous = models.BooleanField(default=False, blank=True)
     drug_treatment_group = models.BooleanField(default=False, blank=True)
     advertisement = models.BooleanField(default=False, blank=True)
-    other2 = models.CharField(max_length=30, blank=True)
+    other = models.CharField(max_length=30, blank=True)
 
-    client1 = models.OneToOneField(
+    client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
         primary_key=True,
@@ -50,6 +67,19 @@ class ReferredBy(models.Model):
     def __str__(self):
         return str(self.client1.client_number)
 
+    @classmethod
+    def create(cls, web, ss, hp, aa, dtg, ad, other, client):
+        referral = Referral(web=web, 
+                            social_service=ss,
+                            health_practitioner=hp,
+                            alcoholics_anonymous=aa,
+                            drug_treatment_group=dtg,
+                            advertisement=ad,
+                            other=other,
+                            client=client)
+        referral.save()
+
+
 class Abuse ( models.Model ):
     client = models.ForeignKey( Client, on_delete = models.CASCADE )
     start_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
@@ -57,8 +87,19 @@ class Abuse ( models.Model ):
     role_of_abuser = models.IntegerField()
     reported_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
     family_context = models.CharField( max_length = 12, validators=[validate_comma_separated_integer_list] )
+
     def __str__(self):
         return str(self.client)
+
+    @classmethod
+    def create(cls, client, start, stop, role, rep_date, context):
+        abuse = Abuse(client=client, 
+                        start_date=start,
+                        stop_date=stop,
+                        role_of_abuser=role,
+                        reported_date=rep_date,
+                        family_context=context)
+        abuse.save()
 
 class Client_Current_Situation( models.Model ):
     medication1 = models.CharField(max_length=50)
@@ -71,8 +112,23 @@ class Client_Current_Situation( models.Model ):
     profession = models.CharField(max_length=50)
     in_treatment = models.BooleanField()
     abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
+
     def __str__(self):
         return str(self.abuse)
+
+    @classmethod
+    def create(cls, med1, purp1, med2, purp2, so, income, loe, prof, treament, abuse):
+        sitch = Client_Current_Situation(medication1=med1, 
+                                         purpose1=purp1, 
+                                         medication2=med2,
+                                         purpose2=purp2,
+                                         sexual_orientation=so,
+                                         income=income, 
+                                         level_of_education=loe,
+                                         profession=prof, 
+                                         in_treatment=treament, 
+                                         abuse=abuse)
+        sitch.save()
 
 class InviteKey( models.Model ):
     id = models.CharField(max_length=6, primary_key=True)

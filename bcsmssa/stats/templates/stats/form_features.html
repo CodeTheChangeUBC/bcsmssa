@@ -1,0 +1,76 @@
+{% extends "stats/form.html" %}
+
+
+{% block client_info %}
+<div class="fieldWrapper">
+	{{ form.client_number.errors }}
+	<label for="{{ form.client_number.id_for_label">Client Number:</label>
+	{{ form.client_number }}
+</div>
+<div class="fieldWrapper">
+	{{ form.date_of_birth.errors }}
+	<label for="{{ form.date_of_birth.id_for_label">Date of Birth:</label>
+	{{ form.date_of_birth }}
+</div>
+<br>
+<div class="fieldWrapper">
+	{{ form.age.errors }}
+	<label for="{{ form.age.id_for_label">Age:</label>
+	{{ form.age }}
+	{{ form.number_of_abuses.errors }}
+	<label for="{{ form.number_of_abuses.id_for_label">Number of Abuses:</label>
+	{{ form.number_of_abuses }}
+</div>
+{% endblock %}
+
+{% block referral_info %}
+{% for field in referral_info %}
+	<div class="fieldWrapper">
+	    {{ field.errors }}
+	    {{ field.label_tag }} {{ field }}
+	    {% if field.help_text %}
+	    <p class="help">{{ field.help_text|safe }}</p>
+	    {% endif %}
+	</div>
+{% endfor %}
+{% endblock %}
+
+{% block services_provided_info %}
+{% for field in services_provided %}
+	<div class="fieldWrapper">
+	    {{ field.errors }}
+	    {{ field.label_tag }} {{ field }}
+	    {% if field.help_text %}
+	    <p class="help">{{ field.help_text|safe }}</p>
+	    {% endif %}
+	</div>
+{% endfor %}
+{% endblock %}
+
+{% block abuse_info %}
+{% for field in abuse_info %}
+	<div class="fieldWrapper">
+	    {{ field.errors }}
+	    {{ field.label_tag }} {{ field }}
+	    {% if field.help_text %}
+	    <p class="help">{{ field.help_text|safe }}</p>
+	    {% endif %}
+	</div>
+{% endfor %}
+{% endblock %}
+
+{% block sexual_orientation_info %}
+{% for field in sexual_orientation_info %}
+	<div class="fieldWrapper">
+	    {{ field.errors }}
+	    {{ field.label_tag }} {{ field }}
+	    {% if field.help_text %}
+	    <p class="help">{{ field.help_text|safe }}</p>
+	    {% endif %}
+	</div>
+{% endfor %}
+{% endblock %}
+
+
+
+

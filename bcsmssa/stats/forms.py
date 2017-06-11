@@ -69,3 +69,7 @@ class patientForm(forms.Form):
     level_of_education  = forms.IntegerField()
     profession          = forms.CharField(max_length=50)
     in_treatment        = forms.BooleanField()
+
+
+
+

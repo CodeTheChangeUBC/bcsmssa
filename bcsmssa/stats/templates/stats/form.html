@@ -13,12 +13,42 @@
 <div class="col-sm-8 col-sm-offset-2">
   <form method="post" class="post-form">
     {% csrf_token %}
-    {{ form.as_p }}
+  
+    <!-- Render success or errors -->
+    {% if previous_success %}
+        <li>Successfully added patient #{{c_num}}</li>
+    {% endif %}
+
+    {# The following blocks are found in form_features.html #}
+
+    <!-- Client Info -->
+    <p>Client Information</p>
+    {% block client_info %}
+    {% endblock %}
+
+    <!-- Services Provided Info -->
+    <p>Services Provided</p>
+    {% block services_provided_info %}
+    {% endblock %}
+
+    <!-- Referral Info -->
+    <p>Referral Information</p>
+    {% block referral_info %}
+    {% endblock %}
+
+    <!-- Abuse Info -->
+    <p>Abuse Information</p>
+    {% block abuse_info %}
+    {% endblock %}
+
+    <!-- Sexual Orientation Info -->
+    <p>Sexual Orientation</p>
+    {% block sexual_orientation_info %}
+    {% endblock %}
+
     <div class="text-center submit">
       <button type="submit" class="save btn btn-default">Submit</button>  
     </div>
   </form>
 </div>
-
-
 {% endblock %} 

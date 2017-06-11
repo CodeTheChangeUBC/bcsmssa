@@ -50,87 +50,6 @@ def statistics(request):
 @login_required
 def form(request):
     data = {}
-    # if request.method == 'POST':
-    #     form = PatientIntakeForm(data=request.POST)
-    #
-    #     if form.is_valid():
-    #         client = form.save()
-    #         request.session['temp_data'] = client.client_number
-    #         return redirect(request.META['HTTP_REFERER'], request.session['temp_data'])
-    #     else:
-    #         print(form.errors)
-    # else:
-    #     if 'temp_data' in request.session:
-    #         data['previous_success'] = True
-    #         data['c_num'] = request.session['temp_data']
-    #     form = PatientIntakeForm()
-    # data['form'] = form
-    #
-    # return render(request, 'stats/form.html', data)
-
-    # if request.method == 'POST':
-    #     form = PatientIntakeForm(data=request.POST)
-    #     form2 = ServicesRequiredForm(data=request.POST)     #added
-    #     form3 = ReferredByForm(data=request.POST)           #added
-    #     print(request.POST)
-
-    #     if all((form.is_valid(), form2.is_valid(), form3.is_valid())):
-    #         client = form.save()
-    #         services_required = form2.save(commit=False)
-    #         referred_by = form3.save(commit=False)
-
-    #     # are the checkboxes selected:
-    #         if not request.POST.get("Individual Therapy", None) == None:
-    #             services_required.individual_therapy += 1
-    #         if not request.POST.get("Victim Services", None) == None:
-    #             services_required.victim_services += 1
-    #         if not request.POST.get("Group Therapy", None) == None:
-    #             services_required.group_therapy += 1
-    #         if not request.POST.get("Web", None) == None:
-    #             referred_by.web = True
-    #         if not request.POST.get("Social Service", None) == None:
-    #             referred_by.social_service = True
-    #         if not request.POST.get("Health Practitioner", None) == None:
-    #             referred_by.health_practitioner = True
-    #         if not request.POST.get("Alcoholics Anonymous", None) == None:
-    #             referred_by.alcoholics_anonymous = True
-    #         if not request.POST.get("Drug Treatment Group", None) == None:
-    #             referred_by.drug_treatment_group = True
-    #         if not request.POST.get("Advertisement", None) == None:
-    #             referred_by.advertisement = True
-    #         if not request.POST.get("OtherCheckbox", None) == None:
-    #             print("made it to step 1")
-    #             referred_by.other2 = request.POST.get('other2', False)
-    #             print(referred_by.other2)
-    #             if request.POST.get("other2", False) != False:
-    #                 print("made it to step 2")
-
-    #         request.session['temp_data'] = client.client_number
-
-    #         #save client as the primary key of services_required and referred_by
-    #         services_required.client1 = client
-    #         referred_by.client1 = client
-
-    #         #save the forms
-    #         client.services_required = services_required
-    #         services_required.save()
-    #         referred_by.save()
-    #         toSave = client
-    #         toSave.save()
-    #         print(request.session['temp_data'])
-    #         return redirect(request.META['HTTP_REFERER'], request.session['temp_data'])
-
-    #     else:
-    #         print(form.errors)
-    #         print(form2.errors)
-    #         print(form3.errors)
-    # else:
-    #     if 'temp_data' in request.session:
-    #         data['previous_success'] = True
-    #         data['c_num'] = request.session['temp_data']
-    #     form = PatientIntakeForm()
-    # data['form'] = form
-
     if request.method == "POST":
         form = patientForm(request.POST)
         if form.is_valid():
@@ -139,9 +58,15 @@ def form(request):
         if 'temp_data' in request.session:
             data['previous_success'] = True
             data['c_num'] = request.session['temp_data']
-        data['form'] = patientForm()
+        form = patientForm()
+        fields = list(form)
+        data['form'] = form
+        data['referral_info']           = fields[7:14]
+        data['services_provided']       = fields[4:7]
+        data['abuse_info']              = fields[14:19]
+        data['sexual_orientation_info'] = fields[19:]
 
-    return render(request, 'stats/form.html', data)
+    return render(request, 'stats/form_features.html', data)
 
 
 

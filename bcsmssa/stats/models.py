@@ -26,10 +26,10 @@ class Client( models.Model ):
                         number_of_abuses=num_abuses)
         client.save()
 
-class ServicesRequested(models.Model):
-    victim_services = models.IntegerField()         #models.BooleanField(default=False)
-    individual_therapy = models.IntegerField()      #models.BooleanField(default=False)
-    group_therapy = models.IntegerField()           #models.BooleanField(default=False)
+class RequestedService(models.Model):
+    victim_services = models.IntegerField()         
+    individual_therapy = models.IntegerField()      
+    group_therapy = models.IntegerField()           
 
     client1 = models.OneToOneField(
          Client,
@@ -101,7 +101,7 @@ class Abuse ( models.Model ):
                         family_context=context)
         abuse.save()
 
-class Client_Current_Situation( models.Model ):
+class CurrentSituation( models.Model ):
     medication1 = models.CharField(max_length=50)
     purpose1 = models.CharField(max_length=150)
     medication2 = models.CharField(max_length=50)

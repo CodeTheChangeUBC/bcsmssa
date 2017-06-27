@@ -24,28 +24,39 @@ def homepage(request):
 
 @login_required
 def statistics(request):
-    data = {}
-    data['client_count'] = Client.objects.all().count()
-    data['abuse_count'] = Abuse.objects.all().count()
-    data['ccs_count'] = Ccs.objects.all().count()
-    data['client_numbers'] = Client.objects.values('client_number')
-    tempdata =  [
-        ['Year', 'Sales', 'Expenses'],
-        [2004, 1000, 400],
-        [2005, 1170, 460],
-        [2006, 660, 1120],
-        [2007, 1030, 540]
-    ]   
-    # DataSource object
-    data_source = SimpleDataSource(data=tempdata)
-    # Chart object
-    chart = LineChart(data_source,options={'title': "test stat plot", 
-                     'hAxis': {'title': 'XXXX (xx)'},
-        'vAxis': {'title': 'YYYY (yy)'},
-      })
-    data['chart'] = chart
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        response_data = {}
+        response_data['text'] = post_text
 
-    return render(request, 'stats/statistics.html', data)
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+
+    else: 
+        data = {}
+        data['client_count'] = Client.objects.all().count()
+        data['abuse_count'] = Abuse.objects.all().count()
+        data['ccs_count'] = Ccs.objects.all().count()
+        data['client_numbers'] = Client.objects.values('client_number')
+        tempdata =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]   
+        # DataSource object
+        data_source = SimpleDataSource(data=tempdata)
+        # Chart object
+        chart = LineChart(data_source,options={'title': "test stat plot", 
+                         'hAxis': {'title': 'XXXX (xx)'},
+            'vAxis': {'title': 'YYYY (yy)'},
+          })
+        data['chart'] = chart
+
+        return render(request, 'stats/statistics.html', data)
 
 @login_required
 def form(request):

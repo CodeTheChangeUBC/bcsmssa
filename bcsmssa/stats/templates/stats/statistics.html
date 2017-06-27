@@ -1,28 +1,25 @@
 {% extends 'stats/base.html' %}
 
 {% block head %}
-     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-     <script type="text/javascript">
-         google.load("visualization", "1", {packages:["corechart"]});
-     </script>
+     <script type="text/javascript" src="../static/stats/js/main.js"></script>
+     <script type="text/javascript" src="../static/stats/js/token.js"></script>
     <title>Statistics page</title>
 {% endblock %}
 
 {% block body %}
-    Hello {{ user.username }}, this is the statistics page!
+Hello {{ user.username }}, this is the statistics page!
+<br>
 
-    <p>Number of entries per model:</p>
-        <li>Client: {{ client_count }} entries.</li>
-        <li>Abuse: {{ abuse_count }} entries.</li>
-        <li>Client_Current_Situation: {{ ccs_count }} entries.</li>
+This is a silly form: <br>
 
-    <div>
-        <p>Clients:</p>
-        {% for num in client_numbers %}
-            <li><a href="/client/{{num.client_number}}">#{{num.client_number}}</a></li>
-        {% endfor %}
+<form action="/update_stats/" method="post" id="stats-form" class="text-center">
+    {% csrf_token %}
+    Some text: 
+    <input type="text" name="randtext" id="randtext"><br>
+    <div class="text-center submit">
+        <button type="submit" class="save btn btn-default">Submit</button>  
     </div>
-    {{ chart.as_html }}
+</form>
 
 {% endblock %}
 

@@ -71,5 +71,3 @@ class patientForm(forms.Form):
     in_treatment        = forms.BooleanField()
 
 
-
-

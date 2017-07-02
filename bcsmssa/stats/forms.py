@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import UserProfile, Client, ServicesRequested, Referral
+from .models import UserProfile, Client, RequestedService, Referral
 
 
 class UserCreationForm(UserCreationForm):

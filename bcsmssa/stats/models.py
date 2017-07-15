@@ -22,8 +22,7 @@ class Client( models.Model ):
     def __iter__(self):
         for field in self._meta.fields:
             yield field.value_to_string(self)
-
-
+        
     @classmethod
     def create(cls, num, dob, age, num_abuses):
         client = Client(client_number=num, 
@@ -45,6 +44,12 @@ class RequestedService(models.Model):
 
     def __str__(self):
         return str(self.client1.client_number)
+
+    # Iterate over field values. 
+    def __iter__(self):
+        for field in self._meta.fields:
+            yield field.value_to_string(self)
+
 
     @classmethod
     def create(cls, vs, it, gt, client):
@@ -73,6 +78,12 @@ class Referral(models.Model):
     def __str__(self):
         return str(self.client1.client_number)
 
+    # Iterate over field values. 
+    def __iter__(self):
+        for field in self._meta.fields:
+            yield field.value_to_string(self)
+
+
     @classmethod
     def create(cls, web, ss, hp, aa, dtg, ad, other, client):
         referral = Referral(web=web, 
@@ -96,6 +107,12 @@ class Abuse ( models.Model ):
 
     def __str__(self):
         return str(self.client)
+
+    # Iterate over field values. 
+    def __iter__(self):
+        for field in self._meta.fields:
+            yield field.value_to_string(self)
+
 
     @classmethod
     def create(cls, client, start, stop, role, rep_date, context):
@@ -121,6 +138,12 @@ class CurrentSituation( models.Model ):
 
     def __str__(self):
         return str(self.abuse)
+
+        # Iterate over field values. 
+    def __iter__(self):
+        for field in self._meta.fields:
+            yield field.value_to_string(self)
+
 
     @classmethod
     def create(cls, med1, purp1, med2, purp2, so, income, loe, prof, treament, abuse):

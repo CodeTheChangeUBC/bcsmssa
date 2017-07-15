@@ -15,9 +15,10 @@
 
 {% block body %}
 Hello {{ user.username }}, this is the statistics page!
+
 <br>
 
-<table style="width:100%" id="clientTable">
+<table id="clientTable">
     <thead>
         <tr>
             {% for field in client_fields %}
@@ -35,6 +36,85 @@ Hello {{ user.username }}, this is the statistics page!
         {% endfor %}
     </tbody>
 </table>
+
+<table id="servicesTable">
+    <thead>
+        <tr>
+            {% for field in service_fields %}
+                <th>{{ field.verbose_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for service in services %}
+            <tr>
+                {% for value in service %}
+                    <th>{{ value }}</th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table id="referralsTable">
+    <thead>
+        <tr>
+            {% for field in referral_fields %}
+                <th>{{ field.verbose_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for referral in referrals %}
+            <tr>
+                {% for value in referral %}
+                    <th>{{ value }}</th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table id="abuseTable">
+    <thead>
+        <tr>
+            {% for field in abuse_fields %}
+                <th>{{ field.verbose_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for abuse in abuses %}
+            <tr>
+                {% for value in abuse %}
+                    <th>{{ value }}</th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<table id="sitchTable">
+    <thead>
+        <tr>
+            {% for field in sitch_fields %}
+                <th>{{ field.verbose_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for sitch in situations %}
+            <tr>
+                {% for value in sitch %}
+                    <th>{{ value }}</th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 
 
 {% endblock %}

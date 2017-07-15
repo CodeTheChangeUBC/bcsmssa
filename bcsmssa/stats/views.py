@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from .forms import patientForm
-from .models import InviteKey, Client, Abuse, CurrentSituation
+from .models import InviteKey, Client, Abuse, CurrentSituation, RequestedService, Referral
 from .helpers import create_models
 import json
 from graphos.sources.simple import SimpleDataSource
@@ -36,6 +36,14 @@ def statistics(request):
         data = {}
         data['clients']         = Client.objects.all()
         data['client_fields']   = Client._meta.get_fields()[3:]
+        data['services']        = RequestedService.objects.all()
+        data['service_fields']  = RequestedService._meta.get_fields()[0:]
+        data['referrals']       = Referral.objects.all()
+        data['referral_fields'] = Referral._meta.get_fields()[0:]
+        data['abuses']          = Abuse.objects.all()
+        data['abuse_fields']    = Abuse._meta.get_fields()[1:]
+        data['situations']      = CurrentSituation.objects.all()
+        data['sitch_fields']    = CurrentSituation._meta.get_fields()[0:]
 
         return render(request, 'stats/statistics.html', data)
 

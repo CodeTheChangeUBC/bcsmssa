@@ -1,8 +1,15 @@
 {% extends 'stats/base.html' %}
 
 {% block head %}
-     <script type="text/javascript" src="../static/stats/js/main.js"></script>
-     <script type="text/javascript" src="../static/stats/js/token.js"></script>
+     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+    <!-- Load DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css"/>    
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"></script>
+    <script type="text/javascript" src="../static/stats/js/stats.js"></script>
+
     <title>Statistics page</title>
 {% endblock %}
 
@@ -10,16 +17,25 @@
 Hello {{ user.username }}, this is the statistics page!
 <br>
 
-This is a silly form: <br>
+<table style="width:100%" id="clientTable">
+    <thead>
+        <tr>
+            {% for field in client_fields %}
+                <th>{{ field.verbose_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+            <tr>
+                {% for value in client %}
+                    <th>{{ value }}</th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<form action="/update_stats/" method="post" id="stats-form" class="text-center">
-    {% csrf_token %}
-    Some text: 
-    <input type="text" name="randtext" id="randtext"><br>
-    <div class="text-center submit">
-        <button type="submit" class="save btn btn-default">Submit</button>  
-    </div>
-</form>
 
 {% endblock %}
 

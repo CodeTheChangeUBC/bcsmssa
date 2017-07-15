@@ -8,15 +8,21 @@ class UserProfile( models.Model ):
 
 class Client( models.Model ):
     # set up client field
-    client_number = models.IntegerField()
+    client_number = models.IntegerField(verbose_name="Client Number")
     date_of_birth = models.DateField('Date of Birth (yyyy-mm-dd)')
-    age = models.IntegerField(null=True, blank=True, default=None)
-    number_of_abuses = models.IntegerField(null=True, blank=True, default=None)
+    age = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
+    number_of_abuses = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
     #health_professionals = models.BooleanField(default=False, blank=False)
     #services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
     # output client info. when called  
     def __str__(self):
         return str(self.client_number)
+
+    # Iterate over field values. 
+    def __iter__(self):
+        for field in self._meta.fields:
+            yield field.value_to_string(self)
+
 
     @classmethod
     def create(cls, num, dob, age, num_abuses):

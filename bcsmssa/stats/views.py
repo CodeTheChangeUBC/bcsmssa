@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from .forms import patientForm
-from .models import InviteKey, Client, Abuse, CurrentSituation as Ccs
+from .models import InviteKey, Client, Abuse, CurrentSituation
 from .helpers import create_models
 import json
 from graphos.sources.simple import SimpleDataSource
@@ -29,32 +29,13 @@ def statistics(request):
         response_data = {}
         response_data['text'] = post_text
 
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
+        return render(request, 'stats/statistics.html', response_data);
+
 
     else: 
         data = {}
-        data['client_count'] = Client.objects.all().count()
-        data['abuse_count'] = Abuse.objects.all().count()
-        data['ccs_count'] = Ccs.objects.all().count()
-        data['client_numbers'] = Client.objects.values('client_number')
-        tempdata =  [
-            ['Year', 'Sales', 'Expenses'],
-            [2004, 1000, 400],
-            [2005, 1170, 460],
-            [2006, 660, 1120],
-            [2007, 1030, 540]
-        ]   
-        # DataSource object
-        data_source = SimpleDataSource(data=tempdata)
-        # Chart object
-        chart = LineChart(data_source,options={'title': "test stat plot", 
-                         'hAxis': {'title': 'XXXX (xx)'},
-            'vAxis': {'title': 'YYYY (yy)'},
-          })
-        data['chart'] = chart
+        data['clients']         = Client.objects.all()
+        data['client_fields']   = Client._meta.get_fields()[3:]
 
         return render(request, 'stats/statistics.html', data)
 

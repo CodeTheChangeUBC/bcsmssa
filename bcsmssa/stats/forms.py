@@ -27,47 +27,47 @@ class patientForm(forms.Form):
                                             required=True)
     date_of_birth       = forms.CharField(widget=forms.TextInput(
                                             attrs={'class':'form-control','placeholder':'YYYY-MM-DD'}))
-    age                 = forms.IntegerField(required=False)
-    number_of_abuses    = forms.IntegerField(required=False)
+    age                 = forms.IntegerField(required=False, label="Age")
+    number_of_abuses    = forms.IntegerField(required=False, label="Number of Abuses")
 
     """
     Services Provided info
     """
-    victim_services     = forms.BooleanField(required=False)         
-    individual_therapy  = forms.BooleanField(required=False)      
-    group_therapy       = forms.BooleanField(required=False)     
+    victim_services     = forms.BooleanField(required=False, label="Victim Services")         
+    individual_therapy  = forms.BooleanField(required=False, label="Individual Therapy")      
+    group_therapy       = forms.BooleanField(required=False, label="Group Therapy")     
 
     """
     Referral Info
     """
-    web                 = forms.BooleanField(required=False)
-    social_service      = forms.BooleanField(required=False)
-    health_practitioner = forms.BooleanField(required=False)
-    alcoholics_anonymous= forms.BooleanField(required=False)
-    drug_treatment_group= forms.BooleanField(required=False)
-    advertisement       = forms.BooleanField(required=False)
-    other_referral      = forms.CharField(max_length=30, required=False)
+    web                 = forms.BooleanField(required=False, label="Web")
+    social_service      = forms.BooleanField(required=False, label="Social Service")
+    health_practitioner = forms.BooleanField(required=False, label="Health Practitioner")
+    alcoholics_anonymous= forms.BooleanField(required=False, label="AA")
+    drug_treatment_group= forms.BooleanField(required=False, label="Drug Treatment Group")
+    advertisement       = forms.BooleanField(required=False, label="Advertisement")
+    other_referral      = forms.CharField(max_length=30, required=False, label="Other")
 
     """
     Abuse Info
     """
-    start_date          = forms.CharField( max_length = 3)
-    stop_date           = forms.CharField( max_length = 3)
-    role_of_abuser      = forms.IntegerField()
-    reported_date       = forms.CharField( max_length = 3)
-    family_context      = forms.CharField( max_length = 12)
+    start_date          = forms.CharField(required=False, max_length = 4, label="Start Date (Year)")
+    stop_date           = forms.CharField(required=False, max_length = 4, label="Stop Date (Year)")
+    role_of_abuser      = forms.IntegerField(required=False, label="Role of Abuser")
+    reported_date       = forms.CharField(required=False, max_length = 4, label="Reported Date (Year)")
+    family_context      = forms.CharField(required=False, max_length = 12, label='Family Context')
 
     """
     Sexual Orientation Info
     """
-    medication1         = forms.CharField(max_length=50)
-    purpose1            = forms.CharField(max_length=150)
-    medication2         = forms.CharField(max_length=50)
-    purpose2            = forms.CharField(max_length=150)
-    sexual_orientation  = forms.IntegerField()
-    income              = forms.IntegerField()
-    level_of_education  = forms.IntegerField()
-    profession          = forms.CharField(max_length=50)
-    in_treatment        = forms.BooleanField()
+    medication1         = forms.CharField(required=False, max_length=50, label="Medication 1")
+    purpose1            = forms.CharField(required=False, max_length=150, label="Purpose 1")
+    medication2         = forms.CharField(required=False, max_length=50, label="Medication 2")
+    purpose2            = forms.CharField(required=False, max_length=150, label="Purpose 2")
+    sexual_orientation  = forms.CharField(required=False, label="Sexual Orientation")
+    income              = forms.IntegerField(required=False, label="Income")
+    level_of_education  = forms.IntegerField(required=False, label="Level of Education")
+    profession          = forms.CharField(required=False, max_length=50, label="Profession")
+    in_treatment        = forms.BooleanField(required=False, label="In treatment?")
 
 

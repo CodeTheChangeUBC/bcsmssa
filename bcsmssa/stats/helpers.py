@@ -32,7 +32,7 @@ def create_services(form, client):
 	vic_services 	= form.cleaned_data['victim_services']
 	ind_therapy 	= form.cleaned_data['individual_therapy']
 	gp_therapy 		= form.cleaned_data['group_therapy']
-	ServicesRequested.create(vic_services,ind_therapy,gp_therapy,client)
+	RequestedService.create(vic_services,ind_therapy,gp_therapy,client)
 
 def create_referral(form, client):
 	"""
@@ -72,7 +72,7 @@ def create_current_situation(form, abuse):
 	level_of_education 	= form.cleaned_data['level_of_education']
 	profession 			= form.cleaned_data['profession']
 	in_treatment 		= form.cleaned_data['in_treatment']
-	Client_Current_Situation.create(medication1, 
+	CurrentSituation.create(medication1, 
 									purpose1, 
 									medication2,
 									purpose2, 

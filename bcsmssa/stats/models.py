@@ -7,14 +7,11 @@ class UserProfile( models.Model ):
     user = models.OneToOneField(User)
 
 class Client( models.Model ):
-    # set up client field
-    client_number = models.IntegerField(verbose_name="Client Number")
-    date_of_birth = models.DateField('Date of Birth (yyyy-mm-dd)')
-    age = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
-    number_of_abuses = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
-    #health_professionals = models.BooleanField(default=False, blank=False)
-    #services_required = models.CharField( max_length = 4, validators=[validate_comma_separated_integer_list])
-    # output client info. when called  
+    client_number       = models.IntegerField(verbose_name="Client Number")
+    date_of_birth       = models.DateField('Date of Birth (yyyy-mm-dd)')
+    age                 = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
+    number_of_abuses    = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
+    
     def __str__(self):
         return str(self.client_number)
 
@@ -32,16 +29,19 @@ class Client( models.Model ):
         client.save()
 
 class RequestedService(models.Model):
-    victim_services = models.IntegerField()         
-    individual_therapy = models.IntegerField()      
-    group_therapy = models.IntegerField()           
-
+    # Client Foreign Key
     client1 = models.OneToOneField(
          Client,
          on_delete=models.CASCADE,
          primary_key=True,
     )
 
+    # Fields
+    victim_services     = models.BooleanField(blank=True, verbose_name="Victim Services")         
+    individual_therapy  = models.BooleanField(blank=True, verbose_name="Individual Therapy")         
+    group_therapy       = models.IntegerField(blank=True, null=True, verbose_name="Group Therapy")           
+
+    
     def __str__(self):
         return str(self.client1.client_number)
 
@@ -53,7 +53,7 @@ class RequestedService(models.Model):
 
     @classmethod
     def create(cls, vs, it, gt, client):
-        sr = ServicesRequested(victim_services=vs,
+        sr = RequestedService(victim_services=vs,
                                 individual_therapy=it, 
                                 group_therapy=gt, 
                                 client1 = client)
@@ -61,20 +61,23 @@ class RequestedService(models.Model):
         sr.save()
 
 class Referral(models.Model):
-    web = models.BooleanField(default=False, blank=True)
-    social_service = models.BooleanField(default=False, blank=True)
-    health_practitioner = models.BooleanField(default=False, blank=True)
-    alcoholics_anonymous = models.BooleanField(default=False, blank=True)
-    drug_treatment_group = models.BooleanField(default=False, blank=True)
-    advertisement = models.BooleanField(default=False, blank=True)
-    other = models.CharField(max_length=30, blank=True)
-
+    # Client Foreign Key
     client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
         primary_key=True,
     )
 
+    # Fields
+    web                     = models.BooleanField(default=False, blank=True, verbose_name="Web")
+    social_service          = models.BooleanField(default=False, blank=True, verbose_name="Social Service")
+    health_practitioner     = models.BooleanField(default=False, blank=True, verbose_name="Health Practitioner")
+    alcoholics_anonymous    = models.BooleanField(default=False, blank=True, verbose_name="Alcoholics Anonymous")
+    drug_treatment_group    = models.BooleanField(default=False, blank=True, verbose_name="Drug Treatment Group")
+    advertisement           = models.BooleanField(default=False, blank=True, verbose_name="Advertisement")
+    other                   = models.CharField(max_length=30, blank=True, verbose_name="Other")
+
+    
     def __str__(self):
         return str(self.client1.client_number)
 
@@ -98,12 +101,15 @@ class Referral(models.Model):
 
 
 class Abuse ( models.Model ):
-    client = models.ForeignKey( Client, on_delete = models.CASCADE )
-    start_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list])
-    stop_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
-    role_of_abuser = models.IntegerField()
-    reported_date = models.CharField( max_length = 3, validators=[validate_comma_separated_integer_list] )
-    family_context = models.CharField( max_length = 12, validators=[validate_comma_separated_integer_list] )
+    # Client Foreign Key
+    client              = models.ForeignKey( Client, on_delete = models.CASCADE )
+
+    # Fields
+    start_date          = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
+    stop_date           = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
+    role_of_abuser      = models.IntegerField(null=True, blank=True, verbose_name="Role of Abuser")
+    reported_date       = models.CharField(max_length=4, blank=True, verbose_name="Reported Date (Year)")
+    family_context      = models.CharField(max_length=12, blank=True, verbose_name="Family Context")
 
     def __str__(self):
         return str(self.client)
@@ -125,21 +131,25 @@ class Abuse ( models.Model ):
         abuse.save()
 
 class CurrentSituation( models.Model ):
-    medication1 = models.CharField(max_length=50)
-    purpose1 = models.CharField(max_length=150)
-    medication2 = models.CharField(max_length=50)
-    purpose2 = models.CharField(max_length=150)
-    sexual_orientation = models.IntegerField()
-    income = models.IntegerField()
-    level_of_education = models.IntegerField()
-    profession = models.CharField(max_length=50)
-    in_treatment = models.BooleanField()
-    abuse = models.ForeignKey( Abuse, on_delete=models.CASCADE)
+    # Abuse Foreign key
+    abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Abuse ID")
+    
+    # Fields
+    medication1         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 1")
+    purpose1            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 1st Med.")
+    medication2         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 2")
+    purpose2            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 2nd Med.")
+    sexual_orientation  = models.CharField(max_length=10,   blank=True, verbose_name="Sexual Orientation" )
+    income              = models.IntegerField(null=True,    blank=True, verbose_name="Income")
+    level_of_education  = models.IntegerField(null=True,    blank=True, verbose_name="Level of Education")
+    profession          = models.CharField(max_length=50,   blank=True, verbose_name="Profession")
+    in_treatment        = models.BooleanField(              blank=True, verbose_name="In Treatment?")
+    
 
     def __str__(self):
         return str(self.abuse)
 
-        # Iterate over field values. 
+    # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
             yield field.value_to_string(self)
@@ -147,16 +157,16 @@ class CurrentSituation( models.Model ):
 
     @classmethod
     def create(cls, med1, purp1, med2, purp2, so, income, loe, prof, treament, abuse):
-        sitch = Client_Current_Situation(medication1=med1, 
-                                         purpose1=purp1, 
-                                         medication2=med2,
-                                         purpose2=purp2,
+        sitch = CurrentSituation(medication1    =med1, 
+                                         purpose1       =purp1, 
+                                         medication2    =med2,
+                                         purpose2       =purp2,
                                          sexual_orientation=so,
-                                         income=income, 
+                                         income         =income, 
                                          level_of_education=loe,
-                                         profession=prof, 
-                                         in_treatment=treament, 
-                                         abuse=abuse)
+                                         profession     =prof, 
+                                         in_treatment   =treament, 
+                                         abuse          =abuse)
         sitch.save()
 
 class InviteKey( models.Model ):

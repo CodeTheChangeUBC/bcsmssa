@@ -1,0 +1,17 @@
+/* ###################################
+		FOOTER STYLING
+#################################### */
+
+
+body > footer > .container-fluid {
+	margin-top: 20px;
+	padding-top: 5px;
+	bottom: 0px;
+	border-top: 1px solid black;
+}
+
+footer #right {
+	float: right;
+	text-align: right;
+}
+

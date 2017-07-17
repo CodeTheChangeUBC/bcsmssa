@@ -1,0 +1,19 @@
+<!-- Site header  -->
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://bc-malesurvivors.com/">BCSMSSA</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li {% if request.resolver_match.url_name == 'homepage' %}class="active"{% endif %}><a href="/" >Home</a></li>
+            <li {% if request.resolver_match.url_name == 'statistics' %}class="active"{% endif %}><a href="/statistics">Statistics</a></li>
+            <li {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}><a href="/form" >Add data</a></li>
+            <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}><a href="/profile" >My Profile</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</nav>

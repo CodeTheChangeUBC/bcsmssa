@@ -6,33 +6,20 @@
         <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
         <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'>
         <link rel='stylesheet' type="text/css" href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
-        <link rel="stylesheet" href="{% static 'stats/css/registration.css' %}">
+        <link rel="stylesheet" href="{% static 'stats/css/main.css' %}">
         {% block head %}
         {% endblock %}
     </head>
     <body>
+        {% include 'stats/partials/header.html' %}
+        
         <div class="container">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="http://bc-malesurvivors.com/">BCSMSSA</a>
-                    </div>
-
-                    <ul class="nav navbar-nav">
-                        <li {% if request.resolver_match.url_name == 'homepage' %}class="active"{% endif %}><a href="/" >Home</a></li>
-                        <li {% if request.resolver_match.url_name == 'statistics' %}class="active"{% endif %}><a href="/statistics">Statistics</a></li>
-                        <li {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}><a href="/form" >Add data</a></li>
-                        <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}><a href="/profile" >My Profile</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
             {% include 'stats/partials/messages.html' %}
             {% block body %}
             {% endblock %}
         </div>
+
+        {% include 'stats/partials/footer.html' %}    
    </body>
     {% block javascript %}
     {% endblock %}

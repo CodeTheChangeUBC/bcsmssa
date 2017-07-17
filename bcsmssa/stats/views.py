@@ -13,6 +13,7 @@ from .helpers import create_models
 import json
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers.gchart import LineChart
+from django.contrib import messages
 
 
 
@@ -54,17 +55,20 @@ def form(request):
         form = patientForm(request.POST)
         if form.is_valid():
             create_models(form)
+            # Render success message and generate blank form
+            messages.success(request, 'Client intake successful!')
+            return redirect('/form')
+        else:
+            messages.warning(request, 'Oops, something went wrong.')
     else:
-        if 'temp_data' in request.session:
-            data['previous_success'] = True
-            data['c_num'] = request.session['temp_data']
         form = patientForm()
-        fields = list(form)
-        data['form'] = form
-        data['referral_info']           = fields[7:14]
-        data['services_provided']       = fields[4:7]
-        data['abuse_info']              = fields[14:19]
-        data['sexual_orientation_info'] = fields[19:]
+        
+    fields = list(form)
+    data['form'] = form
+    data['referral_info']           = fields[7:14]
+    data['services_provided']       = fields[4:7]
+    data['abuse_info']              = fields[14:19]
+    data['sexual_orientation_info'] = fields[19:]
 
     return render(request, 'stats/form_features.html', data)
 

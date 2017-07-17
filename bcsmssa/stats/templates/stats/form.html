@@ -11,14 +11,10 @@
 
 {% block body %}
 <div class="col-sm-8 col-sm-offset-2">
+    
   <form method="post" class="post-form">
     {% csrf_token %}
   
-    <!-- Render success or errors -->
-    {% if previous_success %}
-        <li>Successfully added patient #{{c_num}}</li>
-    {% endif %}
-
     {# The following blocks are found in form_features.html #}
 
     <!-- Client Info -->

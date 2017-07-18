@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import UserProfile, Client, RequestedService, Referral
 
 
+
 class UserCreationForm(UserCreationForm):
     username = forms.EmailField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Email"))
     invite_key = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength':75, 'required': "required"}), label=_("Invite Key"))
@@ -19,23 +20,23 @@ class BootstrapModelForm(ModelForm):
             })
 
 class patientForm(forms.Form):
-    """ 
+    """
     Client Info
     """
     client_number       = forms.CharField(widget=forms.TextInput(
-                                            attrs={'class':'form-control','placeholder':'Client Number'}), 
+                                            attrs={'class':'form-control','placeholder':'Client Number'}),
                                             required=True)
     date_of_birth       = forms.CharField(widget=forms.TextInput(
-                                            attrs={'class':'form-control','placeholder':'YYYY-MM-DD'}))
+                                            attrs={'class':'form-control','placeholder':'YYYY-MM-DD', 'type':'date'}))
     age                 = forms.IntegerField(required=False, label="Age")
     number_of_abuses    = forms.IntegerField(required=False, label="Number of Abuses")
 
     """
     Services Provided info
     """
-    victim_services     = forms.BooleanField(required=False, label="Victim Services")         
-    individual_therapy  = forms.BooleanField(required=False, label="Individual Therapy")      
-    group_therapy       = forms.BooleanField(required=False, label="Group Therapy")     
+    victim_services     = forms.BooleanField(required=False, label="Victim Services")
+    individual_therapy  = forms.BooleanField(required=False, label="Individual Therapy")
+    group_therapy       = forms.BooleanField(required=False, label="Group Therapy")
 
     """
     Referral Info
@@ -53,6 +54,7 @@ class patientForm(forms.Form):
     """
     start_date          = forms.CharField(required=False, max_length = 4, label="Start Date (Year)")
     stop_date           = forms.CharField(required=False, max_length = 4, label="Stop Date (Year)")
+    # huh? Why is role_of_abuser a IntegerField??
     role_of_abuser      = forms.IntegerField(required=False, label="Role of Abuser")
     reported_date       = forms.CharField(required=False, max_length = 4, label="Reported Date (Year)")
     family_context      = forms.CharField(required=False, max_length = 12, label='Family Context')
@@ -69,5 +71,3 @@ class patientForm(forms.Form):
     level_of_education  = forms.IntegerField(required=False, label="Level of Education")
     profession          = forms.CharField(required=False, max_length=50, label="Profession")
     in_treatment        = forms.BooleanField(required=False, label="In treatment?")
-
-

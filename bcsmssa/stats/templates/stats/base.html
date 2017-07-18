@@ -1,12 +1,8 @@
 {% load staticfiles %}
 <html>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <head>
         <meta charset="UTF-8">
-        <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-        <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'>
-        <link rel='stylesheet' type="text/css" href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
-        <link rel="stylesheet" href="{% static 'stats/css/main.css' %}">
+        {% include 'stats/partials/scripts.html' %}
         {% block head %}
         {% endblock %}
     </head>

@@ -36,15 +36,15 @@ def statistics(request):
     else: 
         data = {}
         data['clients']         = Client.objects.all()
-        data['client_fields']   = Client._meta.get_fields()[3:]
+        data['client_fields']   = Client._meta.get_fields()[4:]
         data['services']        = RequestedService.objects.all()
         data['service_fields']  = RequestedService._meta.get_fields()[0:]
         data['referrals']       = Referral.objects.all()
         data['referral_fields'] = Referral._meta.get_fields()[0:]
         data['abuses']          = Abuse.objects.all()
-        data['abuse_fields']    = Abuse._meta.get_fields()[1:]
+        data['abuse_fields']    = Abuse._meta.get_fields()[2:]
         data['situations']      = CurrentSituation.objects.all()
-        data['sitch_fields']    = CurrentSituation._meta.get_fields()[0:]
+        data['sitch_fields']    = CurrentSituation._meta.get_fields()[1:]
 
         return render(request, 'stats/statistics.html', data)
 
@@ -54,10 +54,15 @@ def form(request):
     if request.method == "POST":
         form = patientForm(request.POST)
         if form.is_valid():
-            create_models(form)
-            # Render success message and generate blank form
-            messages.success(request, 'Client intake successful!')
-            return redirect('/form')
+            num_occurrences = Client.objects.filter(client_number=form.cleaned_data['client_number']).count()
+            print(num_occurrences)
+            if num_occurrences > 0: 
+                messages.warning(request, 'Client number already taken.')
+            else: 
+                create_models(form)
+                # Render success message and generate blank form
+                messages.success(request, 'Client intake successful!')
+                return redirect('/form')
         else:
             messages.warning(request, 'Oops, something went wrong.')
     else:

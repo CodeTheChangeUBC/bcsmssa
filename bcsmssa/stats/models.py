@@ -7,7 +7,7 @@ class UserProfile( models.Model ):
     user = models.OneToOneField(User)
 
 class Client( models.Model ):
-    client_number       = models.IntegerField(verbose_name="Client Number")
+    client_number       = models.IntegerField(verbose_name="Client Number", unique=True)
     date_of_birth       = models.DateField('Date of Birth (yyyy-mm-dd)')
     age                 = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
     number_of_abuses    = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
@@ -18,7 +18,8 @@ class Client( models.Model ):
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            yield field.value_to_string(self)
+            if field.name != 'id':
+                yield field.value_to_string(self)
         
     @classmethod
     def create(cls, num, dob, age, num_abuses):
@@ -34,6 +35,7 @@ class RequestedService(models.Model):
          Client,
          on_delete=models.CASCADE,
          primary_key=True,
+         verbose_name='Associated Client Number'
     )
 
     # Fields
@@ -48,7 +50,11 @@ class RequestedService(models.Model):
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            yield field.value_to_string(self)
+            val = field.value_to_string(self)
+            if field.name == 'client1':
+                yield Client.objects.get(pk=int(val))
+            else:
+                yield val
 
 
     @classmethod
@@ -66,6 +72,7 @@ class Referral(models.Model):
         Client,
         on_delete=models.CASCADE,
         primary_key=True,
+        verbose_name='Associated Client Number'
     )
 
     # Fields
@@ -79,12 +86,16 @@ class Referral(models.Model):
 
     
     def __str__(self):
-        return str(self.client1.client_number)
+        return str(self.client.client_number)
 
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            yield field.value_to_string(self)
+            val = field.value_to_string(self)
+            if field.name == 'client1':
+                yield Client.objects.get(pk=int(val))
+            else:
+                yield val
 
 
     @classmethod
@@ -102,7 +113,10 @@ class Referral(models.Model):
 
 class Abuse ( models.Model ):
     # Client Foreign Key
-    client              = models.ForeignKey( Client, on_delete = models.CASCADE )
+    client              = models.ForeignKey( 
+        Client, on_delete = models.CASCADE, 
+        verbose_name='Associated Client Number' 
+    )
 
     # Fields
     start_date          = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
@@ -117,7 +131,12 @@ class Abuse ( models.Model ):
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            yield field.value_to_string(self)
+            if field.name != 'id':
+                val = field.value_to_string(self)
+                if field.name == 'client1':
+                    yield Client.objects.get(pk=int(val))
+                else:
+                    yield val
 
 
     @classmethod
@@ -132,7 +151,7 @@ class Abuse ( models.Model ):
 
 class CurrentSituation( models.Model ):
     # Abuse Foreign key
-    abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Abuse ID")
+    abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Associated Client ID")
     
     # Fields
     medication1         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 1")
@@ -152,7 +171,12 @@ class CurrentSituation( models.Model ):
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            yield field.value_to_string(self)
+            if field.name != 'id':
+                val = field.value_to_string(self)
+                if field.name == 'abuse':
+                    yield Abuse.objects.get(pk=int(val))
+                else:
+                    yield val
 
 
     @classmethod

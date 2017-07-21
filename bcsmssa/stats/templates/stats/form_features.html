@@ -1,25 +1,14 @@
 {% extends "stats/form.html" %}
-
+{% load bootstrap3 %}
 
 {% block client_info %}
 <div class="fieldWrapper">
-	{{ form.client_number.errors }}
-	<label for="{{ form.client_number.id_for_label">Client Number:</label>
-	{{ form.client_number }}
-</div>
-<div class="fieldWrapper">
-	{{ form.date_of_birth.errors }}
-	<label for="{{ form.date_of_birth.id_for_label">Date of Birth:</label>
-	{{ form.date_of_birth }}
-</div>
-<br>
-<div class="fieldWrapper">
+	{% bootstrap_field form.client_number %} 
+	{% bootstrap_field form.date_of_birth %} 
 	{{ form.age.errors }}
-	<label for="{{ form.age.id_for_label">Age:</label>
-	{{ form.age }}
-	{{ form.number_of_abuses.errors }}
-	<label for="{{ form.number_of_abuses.id_for_label">Number of Abuses:</label>
-	{{ form.number_of_abuses }}
+	{% bootstrap_field form.age size='small' %} 
+	{{ form.number_of_abuses.errors }} 
+	{% bootstrap_field form.number_of_abuses %}
 </div>
 {% endblock %}
 
@@ -27,7 +16,7 @@
 {% for field in referral_info %}
 	<div class="fieldWrapper">
 	    {{ field.errors }}
-	    {{ field.label_tag }} {{ field }}
+	    {% bootstrap_field field %}
 	    {% if field.help_text %}
 	    <p class="help">{{ field.help_text|safe }}</p>
 	    {% endif %}
@@ -39,7 +28,7 @@
 {% for field in services_provided %}
 	<div class="fieldWrapper">
 	    {{ field.errors }}
-	    {{ field.label_tag }} {{ field }}
+	    {% bootstrap_field field %}
 	    {% if field.help_text %}
 	    <p class="help">{{ field.help_text|safe }}</p>
 	    {% endif %}
@@ -51,7 +40,7 @@
 {% for field in abuse_info %}
 	<div class="fieldWrapper">
 	    {{ field.errors }}
-	    {{ field.label_tag }} {{ field }}
+	    {% bootstrap_field field %}
 	    {% if field.help_text %}
 	    <p class="help">{{ field.help_text|safe }}</p>
 	    {% endif %}
@@ -63,7 +52,7 @@
 {% for field in sexual_orientation_info %}
 	<div class="fieldWrapper">
 	    {{ field.errors }}
-	    {{ field.label_tag }} {{ field }}
+	    {% bootstrap_field field %}
 	    {% if field.help_text %}
 	    <p class="help">{{ field.help_text|safe }}</p>
 	    {% endif %}

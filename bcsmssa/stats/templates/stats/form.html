@@ -1,49 +1,74 @@
 {% extends 'stats/base.html' %}
-
 {% load static %}
 
 {% block head %}
     <title>Patient Intake Form</title>
     <link rel="stylesheet" href="{% static "form/css/style.css" %}">
-    <link rel="stylesheet" href="{% static "form3/css/style.css" %}">
 {% endblock %}
 
 
 {% block body %}
-<div class="col-sm-8 col-sm-offset-2">
+<div class="container-fluid">
     
   <form method="post" class="post-form">
     {% csrf_token %}
   
     {# The following blocks are found in form_features.html #}
 
-    <!-- Client Info -->
-    <p>Client Information</p>
-    {% block client_info %}
-    {% endblock %}
+    <div class='container-fluid form-holder'>
 
-    <!-- Services Provided Info -->
-    <p>Services Provided</p>
-    {% block services_provided_info %}
-    {% endblock %}
+        <div class='container first-level'>
+            <div class="col-sm-4">
+                <!-- Client Info -->
+                <h4>Client Information</h4>
+                {% block client_info %}
+                {% endblock %}
+            </div>
+            <div class="col-sm-4 sp">
+                <!-- Services Provided Info -->
+                <h4>Services Provided</h4>
+                {% block services_provided_info %}
+                {% endblock %}
+            </div>
+            <div class='col-sm-4'>
+                <!-- Referral Info -->
+                <h4>Referral Information</h4>
+                {% block referral_info %}
+                {% endblock %}
+            </div>
+        </div>
+        
+        <div class='container second-level'>
+            <div class='col-sm-6'>
+                <!-- Abuse Info -->
+                <h4>Abuse Information</h4>
+                {% block abuse_info %}
+                {% endblock %}
+            </div>
+            <div class='col-sm-6'>
+                <!-- Sexual Orientation Info -->
+                <h4>Sexual Orientation</h4>
+                {% block sexual_orientation_info %}
+                {% endblock %}
+            </div>
+         </div>
+        
 
-    <!-- Referral Info -->
-    <p>Referral Information</p>
-    {% block referral_info %}
-    {% endblock %}
+        
 
-    <!-- Abuse Info -->
-    <p>Abuse Information</p>
-    {% block abuse_info %}
-    {% endblock %}
+        
 
-    <!-- Sexual Orientation Info -->
-    <p>Sexual Orientation</p>
-    {% block sexual_orientation_info %}
-    {% endblock %}
+        
+
+        
+
+        
+    </div>
 
     <div class="text-center submit">
-      <button type="submit" class="save btn btn-default">Submit</button>  
+      <button type="submit" class="save btn btn-primary">
+            Submit
+      </button>  
     </div>
   </form>
 </div>

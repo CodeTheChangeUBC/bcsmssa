@@ -36,12 +36,14 @@ AUTH_PROFILE_MODULE = 'stats.UserProfile'
 INSTALLED_APPS = [
     'graphos',
     'stats',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -134,3 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Bootstrap3 Default Settings 
+BOOTSTRAP3 = {
+    # Set default placeholder as false
+    'set_placeholder': False,
+}

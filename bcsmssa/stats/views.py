@@ -9,19 +9,17 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpRe
 from django.views.generic.edit import CreateView
 from .forms import patientForm, UserCreationForm
 from .models import InviteKey, Client, Abuse, CurrentSituation, RequestedService, Referral
-from .helpers import create_models
+from .helpers import create_models, charts, basic_stats
 import json
-from graphos.sources.simple import SimpleDataSource
-from graphos.renderers.gchart import LineChart
 from django.contrib import messages
 
 
 
 @login_required
 def homepage(request):
-    users = User.objects.all()
-    data = {'users':users}
-    return render(request, 'stats/homepage.html', data)
+    graphs = charts()
+    stats = basic_stats()
+    return render(request, 'stats/homepage.html', {**graphs, **stats})
 
 @login_required
 def statistics(request):

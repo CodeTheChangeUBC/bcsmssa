@@ -2,13 +2,27 @@
 
 {% block head %}
     <title>Homepage</title>
+ 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+	     google.load("visualization", "1", {packages:["corechart"]});
+	</script>
 {% endblock %}
 
 {% block body %}
     <h1>Welcome!</h1>
 
-    <p>List of users:</p>
-    {% for u in users %}
-        <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
-    {% endfor %}
+    <div class='container basic-stats'>
+    	<h3>Basic Statistics</h3>
+    	Number of Clients: <strong>{{ num_clients }}</strong> <br>
+    	Average number of abuses: <strong>{{ avg_abuses }}</strong> <br>
+    	Total Number of Abuses: <strong>{{ num_abuses }}</strong>
+
+    </div>
+
+    <div class='container graphs'>
+    	<h3>Charts</h3>
+    	{{ age_vs_abuses.as_html }}	
+    	{{ num_clients.as_html }}
+    </div>
+    
 {% endblock %}

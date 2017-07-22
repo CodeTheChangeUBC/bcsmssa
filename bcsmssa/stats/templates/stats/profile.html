@@ -23,6 +23,12 @@
         {% endfor %}
     {% endif %}
 
+<p>List of users:</p>
+    {% for u in users %}
+        <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
+    {% endfor %}
+
+
 {% endblock %}
 
 {% if user.is_superuser %}

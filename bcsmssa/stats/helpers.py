@@ -1,6 +1,6 @@
 from .models import Client, RequestedService, Referral, Abuse, CurrentSituation 
 from graphos.sources.simple import SimpleDataSource
-from graphos.renderers.gchart import LineChart, BarChart, ColumnChart
+from graphos.renderers.gchart import LineChart, ColumnChart, PieChart
 from graphos.sources.model import ModelDataSource
 
 
@@ -106,6 +106,9 @@ def charts():
     """
     context = {}
     context['age_vs_abuses'] = age_vs_abuse_chart()
+    context['clients_by_age'] = ages()
+    context['service_counts'] = services()
+    context['referral_counts'] = referrals()
     return context
 
 def age_vs_abuse_chart():
@@ -114,9 +117,35 @@ def age_vs_abuse_chart():
     """
     clients = Client.objects.all()
     data_source = ModelDataSource(clients, fields=['age', 'number_of_abuses'])
-    chart = ColumnChart(data_source, options={'title': 'Age and Number of Abuses', 
+    return ColumnChart(data_source, options={'title': 'Age and Number of Abuses', 
                                             'legend': 'none', 
+                                            'width': 650,
                                             'hAxis': {'title': 'Number of Abuses'},
                                             'vAxis': {'title': 'Age'}})
-    return chart
+
+def ages():
+    """
+    Return pie chart of client ages' 
+    """   
+    data_source = SimpleDataSource(data=Client.age_data())
+    return PieChart(data_source, options={'title': "Client Age"})
+
+def services():
+    """
+    Return pie chart demonstrating how often each service is requested
+    """
+    data_source = SimpleDataSource(data=RequestedService.service_data())
+    return PieChart(data_source, options={'title': "Services", 
+                                            'pieHole': 0.4, 
+                                            'width': 650,})
+
+
+def referrals():
+    """
+    Return pie chart conveying referral info
+    """
+    data_source = SimpleDataSource(data=Referral.referral_data())
+    return PieChart(data_source, options={'title': "Referral Type",
+                                            'width': 650,
+                                            'is3D': True})
 

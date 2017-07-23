@@ -29,6 +29,33 @@ class Client( models.Model ):
                         number_of_abuses=num_abuses)
         client.save()
 
+    # Create bins for pie chart based on user ages
+    @classmethod
+    def age_data(cls):
+        # Array contains age intervals
+        # Each interval is 10 years starting at 0-9
+        ages = [0,0,0,0,0,0]
+        for client in Client.objects.all():
+            age = client.age
+            if age:
+                if age <= 9: ages[0] += 1
+                elif age <= 19: ages[1] += 1
+                elif age <= 29: ages[2] += 1
+                elif age <= 39: ages[3] += 1
+                elif age <= 49: ages[4] += 1
+                else: ages[5] += 1
+        data =  [
+            ['Age', 'Range'],
+            ['Less than 10', ages[0]],
+            ['10 - 19', ages[1]],
+            ['20 - 29', ages[2]],
+            ['30 - 39', ages[3]],
+            ['40 - 49', ages[4]],
+            ['50+', ages[5]]
+        ]
+        return data
+
+
 class RequestedService(models.Model):
     # Client Foreign Key
     client1 = models.OneToOneField(
@@ -59,12 +86,35 @@ class RequestedService(models.Model):
 
     @classmethod
     def create(cls, vs, it, gt, client):
-        sr = RequestedService(victim_services=vs,
+        RequestedService(victim_services=vs,
                                 individual_therapy=it, 
                                 group_therapy=gt, 
-                                client1 = client)
+                                client1 = client).save()
 
-        sr.save()
+
+
+    # Create bins for pie chart based on requested service
+    @classmethod
+    def service_data(cls):
+        # S corresponds to services in order
+        # S[0] is victim_services, etc
+        S = [0,0,0]
+        for service in RequestedService.objects.all():
+            if service.victim_services:
+                S[0] += 1
+            if service.individual_therapy:
+                S[1] += 1
+            if service.group_therapy:
+                S[2] += 1
+        data = [
+            ['Service', 'Count'],
+            ['Victim Services', S[0]],
+            ['Individual Therapy', S[1]],
+            ['Group Therapy', S[2]]
+        ]
+        return data
+
+
 
 class Referral(models.Model):
     # Client Foreign Key
@@ -100,15 +150,47 @@ class Referral(models.Model):
 
     @classmethod
     def create(cls, web, ss, hp, aa, dtg, ad, other, client):
-        referral = Referral(web=web, 
-                            social_service=ss,
-                            health_practitioner=hp,
-                            alcoholics_anonymous=aa,
-                            drug_treatment_group=dtg,
-                            advertisement=ad,
-                            other=other,
-                            client=client)
-        referral.save()
+        Referral(web=web, 
+                social_service=ss,
+                health_practitioner=hp,
+                alcoholics_anonymous=aa,
+                drug_treatment_group=dtg,
+                advertisement=ad,
+                other=other,
+                client=client).save()
+
+    # Return data on how many referrals of each type are given
+    @classmethod
+    def referral_data(cls):
+        # Array indices correspond to type of referral
+        # R[0] is count of web referrals, R[1] of social_service, etc
+        R = [0,0,0,0,0,0,0]
+        for referral in Referral.objects.all():
+            if referral.web:
+                R[0] += 1
+            if referral.social_service:
+                R[1] += 1
+            if referral.health_practitioner:
+                R[2] += 1
+            if referral.alcoholics_anonymous:
+                R[3] += 1
+            if referral.drug_treatment_group:
+                R[4] += 1
+            if referral.advertisement:
+                R[5] += 1
+            if referral.other:
+                R[6] += 1
+        data = [
+            ['Referral Type', 'Count'],
+            ['Web', R[0]],
+            ['Social Service', R[1]],
+            ['Health Practitioner', R[2]],
+            ['Alcoholics Anonymous', R[3]],
+            ['Drug Treatment Group', R[4]],
+            ['Advertisement', R[5]],
+            ['Other', R[6]]
+        ]
+        return data
 
 
 class Abuse ( models.Model ):

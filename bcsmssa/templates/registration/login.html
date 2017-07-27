@@ -1,12 +1,17 @@
 {% load staticfiles %}
+{% load bootstrap3 %}
+
 <html>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <head>
         <meta charset="UTF-8">
+        <!-- jQeury -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
         <link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'>
-        <link rel='stylesheet' type="text/css" href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
         <link rel="stylesheet" href="{% static 'stats/css/registration.css' %}">
+        
         <title>Login</title>
     </head>
     <body>
@@ -15,17 +20,9 @@
             <div class="formbackground rounddiv">
             <form style="display: inline; margin: 0;"  method="post">
                 {% csrf_token %}
-                {% for field in form %}
-                    <div class="fieldWrapper">
-                        {{ field.errors }}
-                        {{ field.label_tag }} {{ field }}
-                    </div>
-                {% endfor %}
+                {% bootstrap_form form %}
                 <input class="btn btn-primary" type="submit" value="Login" />
             </form>
-            {% if form.errors %}
-            <p>Invalid username and password combination.</p>
-            {% endif %}
             </div>
             New user? <a href="/register">Register here.</a>
         </div>

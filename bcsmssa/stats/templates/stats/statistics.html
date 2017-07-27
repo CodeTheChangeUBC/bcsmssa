@@ -1,121 +1,38 @@
 {% extends 'stats/base.html' %}
 
 {% block head %}
-     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
-    </script>
-    <!-- Load DataTables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css"/>    
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"></script>
-    <script type="text/javascript" src="../static/stats/js/stats.js"></script>
-
-    <title>Statistics page</title>
+    <title>Homepage</title>
+ 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+	     google.load("visualization", "1", {packages:["corechart"]});
+	</script>
 {% endblock %}
 
 {% block body %}
-Hello {{ user.username }}, this is the statistics page!
+    <h2>Analytics</h2>
 
-<br>
+    <div class='container basic-stats'>
+    	<h3>Basic Statistics</h3>
+    	Number of Clients: <strong>{{ num_clients }}</strong> <br>
+    	Average number of abuses: <strong>{{ avg_abuses }}</strong> <br>
+    	Total Number of Abuses: <strong>{{ num_abuses }}</strong>
+    </div>
 
-<table id="clientTable">
-    <thead>
-        <tr>
-            {% for field in client_fields %}
-                <th>{{ field.verbose_name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for client in clients %}
-            <tr>
-                {% for value in client %}
-                    <th>{{ value }}</th>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<table id="servicesTable">
-    <thead>
-        <tr>
-            {% for field in service_fields %}
-                <th>{{ field.verbose_name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for service in services %}
-            <tr>
-                {% for value in service %}
-                    <th>{{ value }}</th>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<table id="referralsTable">
-    <thead>
-        <tr>
-            {% for field in referral_fields %}
-                <th>{{ field.verbose_name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for referral in referrals %}
-            <tr>
-                {% for value in referral %}
-                    <th>{{ value }}</th>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<table id="abuseTable">
-    <thead>
-        <tr>
-            {% for field in abuse_fields %}
-                <th>{{ field.verbose_name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for abuse in abuses %}
-            <tr>
-                {% for value in abuse %}
-                    <th>{{ value }}</th>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-
-<table id="sitchTable">
-    <thead>
-        <tr>
-            {% for field in sitch_fields %}
-                <th>{{ field.verbose_name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for sitch in situations %}
-            <tr>
-                {% for value in sitch %}
-                    <th>{{ value }}</th>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-
-
-
+    <div class='container graphs'>
+    	<h3>Charts</h3>
+    	<div class='col-sm-6'>
+    		{{ age_vs_abuses.as_html }}	
+    	</div>
+    	<div class='col-sm-6'>
+    		{{ clients_by_age.as_html }}
+    	</div>
+    	<div class='col-sm-6'>
+    		{{ service_counts.as_html }}
+    	</div>
+    	<div class='col-sm-6'>
+    		{{ referral_counts.as_html }}
+    	</div>
+    	
+    </div>
+    
 {% endblock %}
-

@@ -1,6 +1,32 @@
-/* ###################################
-		FOOTER STYLING
-#################################### */
+/* PROFILE PAGE STYLING */
+
+
+#addkeybtn {
+	background-color: darkblue;
+	color: white;
+	-o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .3s;
+    border: solid darkblue 1px;
+}
+#addkeybtn:hover {
+	background-color: white;
+	color: darkblue;
+	border: solid darkblue 1px;
+	
+}
+
+/* DATA PAGE */ 
+div.data h3 {
+	text-align: center;
+	color: gray;
+	padding: 15px 0 30px 0;
+}
+
+
+/* FOOTER STYLING */
 
 
 body > footer > .container-fluid {

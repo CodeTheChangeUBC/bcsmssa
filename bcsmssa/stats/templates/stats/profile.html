@@ -1,34 +1,35 @@
 {% extends 'stats/base.html' %}
+{% load static %}
 
 {% block head %}
     <title>My Profile</title>
 {% endblock %}
 
 {% block body %}
-<h2>{{ user.username }}, this is your profile page!</h2>
+<div class='container profile-page'>
+    <h2>Welcome, {{ user.username }}.</h2>
 
-    {% if user.is_superuser %}
-        <p>Currently logged in as the admin.</p><br>
+        {% if user.is_superuser %}
+            <p>Currently logged in as the admin.</p><br>
 
-        <button id="addkeybtn">Add new invite code</button>
-<br><br>
-        <p>Invite Keys:</p>
-        <div id="keys"></div>
-        {% for k in keys %}
-            <div class="{{ k.id }}_div">
-                <li>
-                    {{ k.id }}<button id="{{ k.id }}" class="del_btn">Delete key</button>
-                </li>
-            </div>
+            <button id="addkeybtn" class='btn'>Add new invite code</button>
+            <br><br>
+            <p>Invite Keys:</p>
+            <div id="keys"></div>
+            {% for k in keys %}
+                <div class="{{ k.id }}_div">
+                    <li>
+                        {{ k.id }} | <a id="{{ k.id }}" class="del_btn">Delete key</a>
+                    </li>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <h4>List of users:</h4>
+        {% for u in users %}
+            <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
         {% endfor %}
-    {% endif %}
-
-<p>List of users:</p>
-    {% for u in users %}
-        <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
-    {% endfor %}
-
-
+</div>
 {% endblock %}
 
 {% if user.is_superuser %}

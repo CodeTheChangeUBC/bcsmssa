@@ -66,7 +66,7 @@ MESSAGE_TAGS = {
 
 ROOT_URLCONF = 'bcsmssa.urls'
 
-LOGIN_REDIRECT_URL = 'homepage'
+LOGIN_REDIRECT_URL = 'statistics'
 LOGIN_URL = 'login'
 
 TEMPLATES = [

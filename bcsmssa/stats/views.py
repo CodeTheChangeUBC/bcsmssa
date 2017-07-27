@@ -16,35 +16,27 @@ from django.contrib import messages
 
 
 @login_required
-def homepage(request):
+def statistics(request):
     graphs = charts()
     stats = basic_stats()
-    return render(request, 'stats/homepage.html', {**graphs, **stats})
+    return render(request, 'stats/statistics.html', {**graphs, **stats})
 
 @login_required
-def statistics(request):
-    if request.method == 'POST':
-        post_text = request.POST.get('the_post')
-        response_data = {}
-        response_data['text'] = post_text
+def data(request):
+    # Load data for relevant tables
+    data = {}
+    data['clients']         = Client.objects.all()
+    data['client_fields']   = Client._meta.get_fields()[4:]
+    data['services']        = RequestedService.objects.all()
+    data['service_fields']  = RequestedService._meta.get_fields()[0:]
+    data['referrals']       = Referral.objects.all()
+    data['referral_fields'] = Referral._meta.get_fields()[0:]
+    data['abuses']          = Abuse.objects.all()
+    data['abuse_fields']    = Abuse._meta.get_fields()[2:]
+    data['situations']      = CurrentSituation.objects.all()
+    data['sitch_fields']    = CurrentSituation._meta.get_fields()[1:]
 
-        return render(request, 'stats/statistics.html', response_data);
-
-
-    else: 
-        data = {}
-        data['clients']         = Client.objects.all()
-        data['client_fields']   = Client._meta.get_fields()[4:]
-        data['services']        = RequestedService.objects.all()
-        data['service_fields']  = RequestedService._meta.get_fields()[0:]
-        data['referrals']       = Referral.objects.all()
-        data['referral_fields'] = Referral._meta.get_fields()[0:]
-        data['abuses']          = Abuse.objects.all()
-        data['abuse_fields']    = Abuse._meta.get_fields()[2:]
-        data['situations']      = CurrentSituation.objects.all()
-        data['sitch_fields']    = CurrentSituation._meta.get_fields()[1:]
-
-        return render(request, 'stats/statistics.html', data)
+    return render(request, 'stats/data.html', data)
 
 @login_required
 def form(request):
@@ -79,14 +71,15 @@ def form(request):
 
 @login_required
 def profile(request):
-    # Send list of keys to front end if the request came from the admin
+    data = {}
+
+    # Send list of keys and users to front end if the request came from the admin
     if request.user.is_superuser:
         keys = InviteKey.objects.all()
-        data = {'keys':keys}
-        return render(request, 'stats/profile.html', data)
+        data['keys'] = keys
+        data['users'] = User.objects.all()
 
-    # Return regular page if not an admin request
-    return render(request, 'stats/profile.html', {})
+    return render(request, 'stats/profile.html', data)
 
 def get_user_profile(request, username):
     # If the requested profile is the currently logged in user then just

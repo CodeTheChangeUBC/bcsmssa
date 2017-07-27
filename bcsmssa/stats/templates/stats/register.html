@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load bootstrap3 %}
+
 <html>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <head>
@@ -15,15 +17,8 @@
             <div class="formbackground rounddiv">
                 <form style="display: inline; margin: 0;" action="/register/" method="post">
                     {% csrf_token %}
-                    {% for field in form %}
-                        <div class="fieldWrapper">
-                            {{ field.label_tag }} {{ field }}
-                        </div>
-                    {% endfor %}
+                    {% bootstrap_form form %}
                     <input class="btn btn-primary" type="submit" value="Register" />
-                    {% for field in form %}
-                        <div> {{ field.errors }} </div>
-                    {% endfor %}
                 </form>
             </div>
             Already have an account? <a href="/login">Login here.</a>

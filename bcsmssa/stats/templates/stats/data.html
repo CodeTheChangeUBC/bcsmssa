@@ -1,0 +1,119 @@
+{% extends 'stats/base.html' %}
+
+{% block head %}
+    <!-- Load DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css"/>    
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"></script>
+    <script type="text/javascript" src="../static/stats/js/stats.js"></script>
+
+    <title>Statistics page</title>
+{% endblock %}
+
+{% block body %}
+
+<div class='data'>
+    
+    <h3>Basic Client Information</h3>
+    <table id="clientTable">
+        <thead>
+            <tr>
+                {% for field in client_fields %}
+                    <th>{{ field.verbose_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                <tr>
+                    {% for value in client %}
+                        <th>{{ value }}</th>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Service Provided</h3>
+    <table id="servicesTable">
+        <thead>
+            <tr>
+                {% for field in service_fields %}
+                    <th>{{ field.verbose_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+                <tr>
+                    {% for value in service %}
+                        <th>{{ value }}</th>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Abuse Details</h3>
+    <table id="abuseTable">
+        <thead>
+            <tr>
+                {% for field in abuse_fields %}
+                    <th>{{ field.verbose_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for abuse in abuses %}
+                <tr>
+                    {% for value in abuse %}
+                        <th>{{ value }}</th>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h3>Client Situation</h3>
+    <table id="sitchTable">
+        <thead>
+            <tr>
+                {% for field in sitch_fields %}
+                    <th>{{ field.verbose_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for sitch in situations %}
+                <tr>
+                    {% for value in sitch %}
+                        <th>{{ value }}</th>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Referral Information</h3>
+    <table id="referralsTable">
+        <thead>
+            <tr>
+                {% for field in referral_fields %}
+                    <th>{{ field.verbose_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for referral in referrals %}
+                <tr>
+                    {% for value in referral %}
+                        <th>{{ value }}</th>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+

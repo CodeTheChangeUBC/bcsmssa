@@ -25,6 +25,17 @@ div.data h3 {
 	padding: 15px 0 30px 0;
 }
 
+/* CLIENTS PAGE */
+
+div.clients #client {
+	color: lightblue;
+}
+div.clients #client:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
 
 /* FOOTER STYLING */
 

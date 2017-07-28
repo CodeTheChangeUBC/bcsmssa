@@ -10,9 +10,10 @@
             <li {% if request.resolver_match.url_name == 'statistics' %}class="active"{% endif %}><a href="/" >Stats</a></li>
             <li {% if request.resolver_match.url_name == 'data' %}class="active"{% endif %}><a href="/data">Data</a></li>
             <li {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}><a href="/form" >Add data</a></li>
-            <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}><a href="/profile" >My Profile</a></li>
+            <li {% if request.resolver_match.url_name == 'clients' %}class="active"{% endif %}><a href="/clients" >All Clients</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}><a href="/profile" >My Profile</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>

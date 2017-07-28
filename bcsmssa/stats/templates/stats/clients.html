@@ -1,0 +1,35 @@
+{% extends 'stats/base.html' %}
+
+{% block body %}
+<div class='container'>
+	<table style='width: 100%'>
+		<tr>
+			<th>Client Number</th>
+			<th>Related Abuse</th>
+			<th>Situation</th>
+			<th>Requested Service</th>
+			<th>Referral</th>
+		</tr>
+		{% for client in clients %}
+		<tr>
+			<th>
+				<a href='#' id='client' data-toggle="modal" data-target="#clientModal{{client.id}}">{{ client }}</a> {% include 'stats/modals/client.html' with client=client %} 
+			</th>
+			<th>
+				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with abuse=client.abuse_set.first %}
+			</th>
+			<th>
+				<a href='#' id='abuse' data-toggle="modal" data-target="#situationModal{{client.id}}">Details</a> {% include 'stats/modals/situation.html' with abuse=client.abuse_set.first.currentsituation_set.first %}
+			</th>
+			<th>
+				<a href='#' id='abuse' data-toggle="modal" data-target="#serviceModal{{client.id}}">Details</a> {% include 'stats/modals/service.html' with abuse=client.requestedservice %}
+			</th>
+			<th>
+				<a href='#' id='abuse' data-toggle="modal" data-target="#referralModal{{client.id}}">Details</a> {% include 'stats/modals/referral.html' with abuse=client.referral %}</th>
+		</tr>
+		{% endfor %}
+	</table>
+
+</div>
+
+{% endblock %}

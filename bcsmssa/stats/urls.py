@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'client/(?P<client_number>[0-9]+)$', views.get_client_info),
     url(r'^data/$', views.data, name='data'),
     url(r'^form/?$', views.form, name='form'),
+    url(r'^clients/$', views.clients, name='clients'),
     url(r'^invite_key$', views.invite_key),
 ]

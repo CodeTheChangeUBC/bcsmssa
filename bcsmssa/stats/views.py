@@ -170,6 +170,14 @@ def user_register(request):
     return render(request, 'stats/register.html', {'form': form })
 
 
+# List of all clients
+@login_required
+def clients(request):
+    data = {}
+    data['clients']         = Client.objects.all()
+    data['client_fields']   = Client._meta.get_fields()[5:]
+    return render(request, 'stats/clients.html', data)
+
 
 # Use Django's built in login system but redirect to the homepage if already
 # logged in

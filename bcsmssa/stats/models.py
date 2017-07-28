@@ -6,19 +6,24 @@ import uuid
 class UserProfile( models.Model ):
     user = models.OneToOneField(User)
 
+
 class Client( models.Model ):
+    # Track the user which created this client
+    user = models.ForeignKey(User, null=True, default=None, on_delete=models.SET_DEFAULT, verbose_name="User")
+
     client_number       = models.IntegerField(verbose_name="Client Number", unique=True)
     date_of_birth       = models.DateField('Date of Birth (yyyy-mm-dd)')
     age                 = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
     number_of_abuses    = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
-    
+
+
     def __str__(self):
         return str(self.client_number)
 
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
-            if field.name != 'id':
+            if field.name != 'id' and field.name != 'user':
                 yield field.value_to_string(self)
         
     @classmethod

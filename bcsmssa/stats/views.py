@@ -26,7 +26,7 @@ def data(request):
     # Load data for relevant tables
     data = {}
     data['clients']         = Client.objects.all()
-    data['client_fields']   = Client._meta.get_fields()[4:]
+    data['client_fields']   = Client._meta.get_fields()[5:]
     data['services']        = RequestedService.objects.all()
     data['service_fields']  = RequestedService._meta.get_fields()[0:]
     data['referrals']       = Referral.objects.all()

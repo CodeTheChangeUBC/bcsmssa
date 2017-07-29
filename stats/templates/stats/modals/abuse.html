@@ -1,18 +1,7 @@
 <!-- Modal to show Abuse Details -->
 <div id="abuseModal{{client.id}}" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Abuse Details for Client {{ client }}</h4>
-      </div>
-      <div class="modal-body">
-        Abuse details TODO
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
+  {% include 'stats/modals/abstract.html' with model=model fields=fields modal_title="Abuse Details for Client" client_id=client.id no_info="No Abuse Details." %}
 </div>
+
+
+

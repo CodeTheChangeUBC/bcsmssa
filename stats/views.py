@@ -176,6 +176,11 @@ def clients(request):
     data = {}
     data['clients']         = Client.objects.all()
     data['client_fields']   = Client._meta.get_fields()[5:]
+    data['service_fields']  = RequestedService._meta.get_fields()[0:]
+    data['referral_fields'] = Referral._meta.get_fields()[0:]
+    data['abuse_fields']    = Abuse._meta.get_fields()[2:]
+    data['sitch_fields']    = CurrentSituation._meta.get_fields()[1:]
+    
     return render(request, 'stats/clients.html', data)
 
 

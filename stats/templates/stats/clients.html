@@ -1,4 +1,9 @@
 {% extends 'stats/base.html' %}
+{% load static %}
+
+{% block head %}
+<title>All Clients</title>
+{% endblock %}
 
 {% block body %}
 <div class='container'>
@@ -13,19 +18,19 @@
 		{% for client in clients %}
 		<tr>
 			<th>
-				<a href='#' id='client' data-toggle="modal" data-target="#clientModal{{client.id}}">{{ client }}</a> {% include 'stats/modals/client.html' with client=client %} 
+				<a href='#' id='client' data-toggle="modal" data-target="#clientModal{{client.id}}">{{ client }}</a> {% include 'stats/modals/client.html' with client=client fields=client_fields %} 
 			</th>
 			<th>
-				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with abuse=client.abuse_set.first %}
+				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with model=client.abuse_set.first fields=abuse_fields %}
 			</th>
 			<th>
-				<a href='#' id='abuse' data-toggle="modal" data-target="#situationModal{{client.id}}">Details</a> {% include 'stats/modals/situation.html' with abuse=client.abuse_set.first.currentsituation_set.first %}
+				<a href='#' id='situation' data-toggle="modal" data-target="#situationModal{{client.id}}">Details</a> {% include 'stats/modals/situation.html' with situation=client.abuse_set.first.currentsituation_set.first fields=sitch_fields %}
 			</th>
 			<th>
-				<a href='#' id='abuse' data-toggle="modal" data-target="#serviceModal{{client.id}}">Details</a> {% include 'stats/modals/service.html' with abuse=client.requestedservice %}
+				<a href='#' id='service' data-toggle="modal" data-target="#serviceModal{{client.id}}">Details</a> {% include 'stats/modals/service.html' with service=client.requestedservice fields=service_fields%}
 			</th>
 			<th>
-				<a href='#' id='abuse' data-toggle="modal" data-target="#referralModal{{client.id}}">Details</a> {% include 'stats/modals/referral.html' with abuse=client.referral %}</th>
+				<a href='#' id='referral' data-toggle="modal" data-target="#referralModal{{client.id}}">Details</a> {% include 'stats/modals/referral.html' with referral=client.referral fields=referral_fields %}</th>
 		</tr>
 		{% endfor %}
 	</table>

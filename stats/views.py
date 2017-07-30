@@ -1,12 +1,14 @@
 from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as view_login
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from .forms import patientForm, UserCreationForm
 from .models import InviteKey, Client, Abuse, CurrentSituation, RequestedService, Referral
 from .helpers import create_models, charts, basic_stats
@@ -180,8 +182,17 @@ def clients(request):
     data['referral_fields'] = Referral._meta.get_fields()[0:]
     data['abuse_fields']    = Abuse._meta.get_fields()[2:]
     data['sitch_fields']    = CurrentSituation._meta.get_fields()[1:]
-    
+
     return render(request, 'stats/clients.html', data)
+
+# Client Update view
+class ClientUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Client
+    fields = [f.name for f in Client._meta.get_fields()[3:]]
+    template_name = 'stats/updates/client_edit.html'
+    success_url = '/clients'
+    success_message = "Client Updated was updated successfully!"
+
 
 
 # Use Django's built in login system but redirect to the homepage if already

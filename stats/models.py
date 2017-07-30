@@ -9,7 +9,7 @@ class UserProfile( models.Model ):
 
 class Client( models.Model ):
     # Track the user which created this client
-    user = models.ForeignKey(User, null=True, default=None, on_delete=models.SET_DEFAULT, verbose_name="User")
+    user = models.ForeignKey(User, null=True, default=None, on_delete=models.SET_DEFAULT, verbose_name="Input by User")
 
     client_number       = models.IntegerField(verbose_name="Client Number", unique=True)
     date_of_birth       = models.DateField('Date of Birth (yyyy-mm-dd)')

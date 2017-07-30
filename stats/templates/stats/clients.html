@@ -19,6 +19,7 @@
 		<tr>
 			<th>
 				<a href='#' id='client' data-toggle="modal" data-target="#clientModal{{client.id}}">{{ client }}</a> {% include 'stats/modals/client.html' with client=client fields=client_fields %} 
+				| <a href="{% url 'edit_client' client.id %}">Edit</a>
 			</th>
 			<th>
 				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with model=client.abuse_set.first fields=abuse_fields %}

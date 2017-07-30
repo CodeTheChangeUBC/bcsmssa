@@ -1,0 +1,12 @@
+{% extends 'stats/base.html' %}
+{% load bootstrap3 %}
+
+{% block body %}
+	<div class='container col-sm-6 col-sm-offset-3'>
+		<form action="" method="post">
+			{% csrf_token %}
+		    {% bootstrap_form form %}
+		    <input class='btn btn-primary' type="submit" value="Update" />
+		</form>
+	</div>
+{% endblock %}

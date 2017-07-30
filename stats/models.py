@@ -73,7 +73,7 @@ class RequestedService(models.Model):
     # Fields
     victim_services     = models.BooleanField(blank=True, verbose_name="Victim Services")         
     individual_therapy  = models.BooleanField(blank=True, verbose_name="Individual Therapy")         
-    group_therapy       = models.IntegerField(blank=True, null=True, verbose_name="Group Therapy")           
+    group_therapy       = models.BooleanField(blank=True, verbose_name="Group Therapy")           
 
     
     def __str__(self):
@@ -207,7 +207,7 @@ class Abuse ( models.Model ):
 
     # Fields
     start_date          = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
-    stop_date           = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
+    stop_date           = models.CharField(max_length=4, blank=True, verbose_name="Stop Date (Year)")
     role_of_abuser      = models.IntegerField(null=True, blank=True, verbose_name="Role of Abuser")
     reported_date       = models.CharField(max_length=4, blank=True, verbose_name="Reported Date (Year)")
     family_context      = models.CharField(max_length=12, blank=True, verbose_name="Family Context")

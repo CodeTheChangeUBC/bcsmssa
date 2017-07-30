@@ -3,6 +3,7 @@
 
 {% block body %}
 	<div class='container col-sm-6 col-sm-offset-3'>
+		<h3>{{ edit_header }}</h3>
 		<form action="" method="post">
 			{% csrf_token %}
 		    {% bootstrap_form form %}

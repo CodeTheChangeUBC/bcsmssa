@@ -189,9 +189,72 @@ def clients(request):
 class ClientUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Client
     fields = [f.name for f in Client._meta.get_fields()[3:]]
-    template_name = 'stats/updates/client_edit.html'
+    template_name = 'stats/edit.html'
     success_url = '/clients'
-    success_message = "Client Updated was updated successfully!"
+    success_message = "Client was updated successfully!"
+
+    # Overwrite and add to context
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['edit_header'] = "Edit Client"
+        return context 
+
+# Abuse Update view
+class AbuseUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Abuse
+    fields = [f.name for f in Abuse._meta.get_fields()[3:]]
+    template_name = 'stats/edit.html'
+    success_url = '/clients'
+    success_message = "Abuse was updated successfully!"
+
+    # Overwrite and add to context
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['edit_header'] = "Edit Abuse"
+        return context 
+
+# Situation Update view
+class SituationUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = CurrentSituation
+    fields = [f.name for f in CurrentSituation._meta.get_fields()[2:]]
+    template_name = 'stats/edit.html'
+    success_url = '/clients'
+    success_message = "Situation was updated successfully!"
+
+    # Overwrite and add to context
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['edit_header'] = "Edit Current Situation"
+        return context 
+
+# Service Update view
+class ServiceUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = RequestedService
+    fields = [f.name for f in RequestedService._meta.get_fields()[1:]]
+    template_name = 'stats/edit.html'
+    success_url = '/clients'
+    success_message = "Request Service was updated successfully!"
+
+    # Overwrite and add to context
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['edit_header'] = "Edit Requested Services"
+        return context 
+
+# Abuse Update view
+class ReferralUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Referral
+    fields = [f.name for f in Referral._meta.get_fields()[1:]]
+    template_name = 'stats/edit.html'
+    success_url = '/clients'
+    success_message = "Referral info was updated successfully!"
+
+    # Overwrite and add to context
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['edit_header'] = "Edit Referral"
+        return context 
+
 
 
 

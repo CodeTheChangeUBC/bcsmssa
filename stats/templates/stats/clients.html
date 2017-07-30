@@ -22,16 +22,21 @@
 				| <a href="{% url 'edit_client' client.id %}">Edit</a>
 			</th>
 			<th>
-				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with model=client.abuse_set.first fields=abuse_fields %}
+				<a href='#' id='abuse' data-toggle="modal" data-target="#abuseModal{{client.id}}">Details</a> {% include 'stats/modals/abuse.html' with model=client.abuse_set.all.first fields=abuse_fields %}
+				| <a href="{% url 'edit_abuse' client.id %}">Edit</a>
 			</th>
 			<th>
 				<a href='#' id='situation' data-toggle="modal" data-target="#situationModal{{client.id}}">Details</a> {% include 'stats/modals/situation.html' with situation=client.abuse_set.first.currentsituation_set.first fields=sitch_fields %}
+				| <a href="{% url 'edit_situation' client.id %}">Edit</a>
 			</th>
 			<th>
 				<a href='#' id='service' data-toggle="modal" data-target="#serviceModal{{client.id}}">Details</a> {% include 'stats/modals/service.html' with service=client.requestedservice fields=service_fields%}
+				| <a href="{% url 'edit_service' client.id %}">Edit</a>
 			</th>
 			<th>
-				<a href='#' id='referral' data-toggle="modal" data-target="#referralModal{{client.id}}">Details</a> {% include 'stats/modals/referral.html' with referral=client.referral fields=referral_fields %}</th>
+				<a href='#' id='referral' data-toggle="modal" data-target="#referralModal{{client.id}}">Details</a> {% include 'stats/modals/referral.html' with referral=client.referral fields=referral_fields %}
+				| <a href="{% url 'edit_referral' client.id %}">Edit</a>
+			</th>
 		</tr>
 		{% endfor %}
 	</table>

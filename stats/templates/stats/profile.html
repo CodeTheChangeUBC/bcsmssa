@@ -25,10 +25,18 @@
             {% endfor %}
         {% endif %}
 
-        <h4>List of users:</h4>
+        <h4>List of staff:</h4>
         {% for u in users %}
             <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
         {% endfor %}
+
+        <h4>Clients input by {{ user.username }}</h4>
+        {% for client in user.client_set.all %}
+            <li>{{ client.client_number }}</li>
+        {% endfor %}
+
+
+
 </div>
 {% endblock %}
 

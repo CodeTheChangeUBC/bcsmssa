@@ -30,11 +30,12 @@ class Client( models.Model ):
                 yield field.value_to_string(self)
         
     @classmethod
-    def create(cls, num, dob, age, num_abuses):
+    def create(cls, num, dob, age, num_abuses, user):
         client = Client(client_number=num, 
                         date_of_birth=dob, 
                         age=age, 
-                        number_of_abuses=num_abuses)
+                        number_of_abuses=num_abuses, 
+                        user=user)
         client.save()
 
     # Return total number of abuses    

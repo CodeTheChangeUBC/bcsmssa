@@ -4,12 +4,13 @@ from graphos.renderers.gchart import LineChart, ColumnChart, PieChart
 from graphos.sources.model import ModelDataSource
 
 
-def create_models(form):
+def create_models(form, user):
     """
-    Create models from form data 
+    Create models from form data
+    user is User who submitted form
     """
     # Must create client before getting client
-    create_client(form)
+    create_client(form, user)
     client = Client.objects.filter(client_number=form.cleaned_data['client_number'])[0]
     create_services(form, client)
     create_referral(form, client)
@@ -19,7 +20,7 @@ def create_models(form):
     create_current_situation(form, abuse)
 
 
-def create_client(form):
+def create_client(form, user):
     """
     Create new client from form data
     """
@@ -27,7 +28,7 @@ def create_client(form):
     dob             = form.cleaned_data['date_of_birth']
     age             = form.cleaned_data['age']
     number_abuses   = form.cleaned_data['number_of_abuses']
-    Client.create(client_number,dob,age,number_abuses)
+    Client.create(client_number,dob,age,number_abuses,user)
 
 def create_services(form, client):  
     """

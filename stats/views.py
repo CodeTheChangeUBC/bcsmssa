@@ -45,13 +45,13 @@ def form(request):
     data = {}
     if request.method == "POST":
         form = patientForm(request.POST)
+        user = request.user
         if form.is_valid():
             num_occurrences = Client.objects.filter(client_number=form.cleaned_data['client_number']).count()
-            print(num_occurrences)
             if num_occurrences > 0: 
                 messages.warning(request, 'Client number already taken.')
             else: 
-                create_models(form)
+                create_models(form, user)
                 # Render success message and generate blank form
                 messages.success(request, 'Client intake successful!')
                 return redirect('/form')
@@ -61,7 +61,7 @@ def form(request):
         form = patientForm()
         
     fields = list(form)
-    data['form'] = form
+    data['form']                    = form
     data['referral_info']           = fields[7:14]
     data['services_provided']       = fields[4:7]
     data['abuse_info']              = fields[14:19]

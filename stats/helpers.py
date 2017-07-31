@@ -93,10 +93,10 @@ def basic_stats():
     """
     stats = {}
     client_count = Client.objects.all().count()
-    num_abuses = Abuse.objects.all().count()
+    num_abuses = Client.total_abuses()
     stats['num_clients'] = client_count
     stats['num_abuses'] = num_abuses
-    stats['avg_abuses'] = round(float(num_abuses)/client_count,2)
+    stats['avg_abuses'] = round(float(num_abuses)/client_count,2) if client_count!=0 else 0
     return stats
 
 
@@ -120,8 +120,8 @@ def age_vs_abuse_chart():
     return ColumnChart(data_source, options={'title': 'Age and Number of Abuses', 
                                             'legend': 'none', 
                                             'width': 650,
-                                            'hAxis': {'title': 'Number of Abuses'},
-                                            'vAxis': {'title': 'Age'}})
+                                            'vAxis': {'title': 'Number of Abuses'},
+                                            'hAxis': {'title': 'Age'}})
 
 def ages():
     """

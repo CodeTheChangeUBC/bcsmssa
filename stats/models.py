@@ -1,7 +1,9 @@
 from django.core.validators import validate_comma_separated_integer_list
 from django.contrib.auth.models import User
 from django.db import models
+from functools import reduce
 import uuid
+
 
 class UserProfile( models.Model ):
     user = models.OneToOneField(User)
@@ -33,6 +35,11 @@ class Client( models.Model ):
                         age=age, 
                         number_of_abuses=num_abuses)
         client.save()
+
+    # Return total number of abuses    
+    @classmethod
+    def total_abuses(cls):
+        return reduce(lambda x,y: x+y.number_of_abuses, Client.objects.all(), 0)
 
     # Create bins for pie chart based on user ages
     @classmethod

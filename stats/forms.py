@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import UserProfile, Client, RequestedService, Referral
+from .models import UserProfile, Client, RequestedService, Referral, CurrentSituation
 
 
 
@@ -24,11 +24,11 @@ class patientForm(forms.Form):
     Client Info
     """
     client_number       = forms.CharField(widget=forms.TextInput(
-                                            attrs={'class':'form-control','placeholder':'Client Number'}),
+                                            attrs={'class':'form-control'}),
                                             required=True)
-    date_of_birth       = forms.CharField(widget=forms.TextInput(
+    date_of_birth       = forms.DateField(widget=forms.TextInput(
                                             attrs={'class':'form-control','placeholder':'YYYY-MM-DD', 'type':'date'}))
-    age                 = forms.IntegerField(required=False, label="Age")
+    age                 = forms.IntegerField(required=False, label="Age at time of visit")
     number_of_abuses    = forms.IntegerField(required=False, label="Number of Abuses")
 
     """
@@ -54,20 +54,25 @@ class patientForm(forms.Form):
     """
     start_date          = forms.CharField(required=False, max_length = 4, label="Start Date (Year)")
     stop_date           = forms.CharField(required=False, max_length = 4, label="Stop Date (Year)")
-    # huh? Why is role_of_abuser a IntegerField??
-    role_of_abuser      = forms.IntegerField(required=False, label="Role of Abuser")
+    role_of_abuser      = forms.CharField(required=False, label="Role of Abuser")
     reported_date       = forms.CharField(required=False, max_length = 4, label="Reported Date (Year)")
     family_context      = forms.CharField(required=False, max_length = 12, label='Family Context')
 
     """
     Sexual Orientation Info
     """
+    # Get choices from models
+    sex_choices = [('','')] + CurrentSituation.sex_choices
+    income_choices = [('','')] + CurrentSituation.income_choices
+    edu_choices = [('','')] + CurrentSituation.edu_choices
+
+    
     medication1         = forms.CharField(required=False, max_length=50, label="Medication 1")
-    purpose1            = forms.CharField(required=False, max_length=150, label="Purpose 1")
+    purpose1            = forms.CharField(required=False, max_length=150, label="Medication's purpose")
     medication2         = forms.CharField(required=False, max_length=50, label="Medication 2")
-    purpose2            = forms.CharField(required=False, max_length=150, label="Purpose 2")
-    sexual_orientation  = forms.CharField(required=False, label="Sexual Orientation")
-    income              = forms.IntegerField(required=False, label="Income")
-    level_of_education  = forms.IntegerField(required=False, label="Level of Education")
+    purpose2            = forms.CharField(required=False, max_length=150, label="Medication's purpose")
+    sexual_orientation  = forms.ChoiceField(required=False, label="Sexual Orientation", choices=sex_choices)
+    income              = forms.ChoiceField(required=False, label="Income", choices=income_choices)
+    level_of_education  = forms.ChoiceField(required=False, label="Level of Education", choices=edu_choices)
     profession          = forms.CharField(required=False, max_length=50, label="Profession")
     in_treatment        = forms.BooleanField(required=False, label="In treatment?")

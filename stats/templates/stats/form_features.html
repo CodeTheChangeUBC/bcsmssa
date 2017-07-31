@@ -5,9 +5,7 @@
 <div class="fieldWrapper">
 	{% bootstrap_field form.client_number %} 
 	{% bootstrap_field form.date_of_birth %} 
-	{{ form.age.errors }}
-	{% bootstrap_field form.age size='small' %} 
-	{{ form.number_of_abuses.errors }} 
+	{% bootstrap_field form.age size='small' placeholder='Leave blank to set as current age' %} 
 	{% bootstrap_field form.number_of_abuses %}
 </div>
 {% endblock %}

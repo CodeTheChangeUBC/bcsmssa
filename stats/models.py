@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from functools import reduce
 import uuid
+import datetime
 
 
 class UserProfile( models.Model ):
@@ -15,7 +16,7 @@ class Client( models.Model ):
 
     client_number       = models.IntegerField(verbose_name="Client Number", unique=True)
     date_of_birth       = models.DateField('Date of Birth (yyyy-mm-dd)')
-    age                 = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age")
+    age                 = models.IntegerField(null=True, blank=True, default=None, verbose_name="Age at time of visit")
     number_of_abuses    = models.IntegerField(null=True, blank=True, default=None, verbose_name="Number of Abuses")
 
 
@@ -66,6 +67,17 @@ class Client( models.Model ):
             ['50+', ages[5]]
         ]
         return data
+
+    # Override save method to store age on creation
+    def save(self, *args, **kwargs):
+        cur_date = datetime.datetime.now()
+        dob = self.date_of_birth
+        if not self.age: 
+            self.age = cur_date.year - dob.year
+            if dob.month >= cur_date.month:
+                if dob.day > cur_date.day:
+                    self.age -= 1
+        super().save(*args,**kwargs)
 
 
 class RequestedService(models.Model):
@@ -215,7 +227,7 @@ class Abuse ( models.Model ):
     # Fields
     start_date          = models.CharField(max_length=4, blank=True, verbose_name="Start Date (Year)")
     stop_date           = models.CharField(max_length=4, blank=True, verbose_name="Stop Date (Year)")
-    role_of_abuser      = models.IntegerField(null=True, blank=True, verbose_name="Role of Abuser")
+    role_of_abuser      = models.CharField(max_length=100, null=True, blank=True, verbose_name="Role of Abuser")
     reported_date       = models.CharField(max_length=4, blank=True, verbose_name="Reported Date (Year)")
     family_context      = models.CharField(max_length=12, blank=True, verbose_name="Family Context")
 
@@ -246,15 +258,61 @@ class Abuse ( models.Model ):
 class CurrentSituation( models.Model ):
     # Abuse Foreign key
     abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Associated Client ID")
+
+    # Sexual Orientation Choices
+    # Set variables for easier stats gathering
+    het = "Heterosexual"
+    hom = "Homosexual"
+    bi = "Bisexual"
+    trans = "Transexual"
+    other = "Other"
+    sex_choices = [ (het, het), 
+                    (hom, hom), 
+                    (bi, bi),
+                    (trans, trans),
+                    (other, other)]
+
+    # Level of Education Choices
+    # Set variables for stats gathering
+    edu1 = "Secondary education or less"
+    edu2 = "Diploma Program"
+    edu3 = "Post-graduate - Bachelors"
+    edu4 = "Post-graduate - Graduate"
+    edu5 = "Post-graduate - Professional"
+    edu6 = "Post-graduate - Doctorate"
+    edu_choices = [ (edu1, edu1),
+                    (edu2, edu2),
+                    (edu3, edu3),
+                    (edu4, edu4),
+                    (edu5, edu5),
+                    (edu6, edu6) ]
+
+    # Income bracket choices
+    inc1 = "Less than $20,000"
+    inc2 = "$20,000 - $34,999"
+    inc3 = "$35,000 - $49,999"
+    inc4 = "$50,000 - $75,999"
+    inc5 = "$75,000 - $99,999"
+    inc6 = "$100,000 - $149,999"
+    inc7 = "$150,000 - $199,999"
+    inc8 = "$200,000 or more"
+    income_choices = [ (inc1, inc1), 
+                        (inc2, inc2),
+                        (inc3, inc3),
+                        (inc4, inc4),
+                        (inc5, inc5),
+                        (inc6, inc6),
+                        (inc7, inc7),
+                        (inc8, inc8)]
     
     # Fields
     medication1         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 1")
     purpose1            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 1st Med.")
     medication2         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 2")
     purpose2            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 2nd Med.")
-    sexual_orientation  = models.CharField(max_length=10,   blank=True, verbose_name="Sexual Orientation" )
-    income              = models.IntegerField(null=True,    blank=True, verbose_name="Income")
-    level_of_education  = models.IntegerField(null=True,    blank=True, verbose_name="Level of Education")
+    sexual_orientation  = models.CharField(max_length=10,   blank=True, verbose_name="Sexual Orientation" ,choices=sex_choices)
+    income              = models.CharField(max_length=50,   blank=True, verbose_name="Income", choices=income_choices)
+    level_of_education  = models.CharField(max_length=50,   blank=True, verbose_name="Level of Education", choices=edu_choices)
     profession          = models.CharField(max_length=50,   blank=True, verbose_name="Profession")
     in_treatment        = models.BooleanField(              blank=True, verbose_name="In Treatment?")
     

@@ -9,6 +9,7 @@ from django.contrib.auth.views import login as view_login
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.detail import DetailView
 from .forms import patientForm, UserCreationForm
 from .models import InviteKey, Client, Abuse, CurrentSituation, RequestedService, Referral
 from .helpers import create_models, charts, basic_stats
@@ -68,43 +69,6 @@ def form(request):
     data['sexual_orientation_info'] = fields[19:]
 
     return render(request, 'stats/form_features.html', data)
-
-
-
-@login_required
-def profile(request):
-    data = {}
-
-    # Send list of keys and users to front end if the request came from the admin
-    if request.user.is_superuser:
-        keys = InviteKey.objects.all()
-        data['keys'] = keys
-        data['users'] = User.objects.all()
-
-    return render(request, 'stats/profile.html', data)
-
-def get_user_profile(request, username):
-    # If the requested profile is the currently logged in user then just
-    # redirect to their personal profile page
-    if request.user.username == username:
-        return redirect('/profile')
-
-    # Get the requested user from the data base and send that info to the
-    # user_profile template
-    data = {}
-    user = User.objects.get(username=username)
-    data['user'] = user
-    return render(request, 'stats/user_profile.html', data)
-
-def get_client_info(request, client_number):
-    # Get the requested client from the data base and send that info to the
-    # client_info template
-    data = {}
-    client = Client.objects.get(client_number=client_number)
-    data['client'] = client
-    return render(request, 'stats/client_info.html', data)
-
-
 
 
 @login_required
@@ -253,6 +217,22 @@ class ReferralUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['edit_header'] = "Edit Referral"
+        return context 
+
+# User profile page 
+class UserProfile(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'stats/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['users'] = User.objects.all()   
+
+        # Send list of keys to front end if the request came from the admin
+        if self.request.user.is_superuser:
+            keys = InviteKey.objects.all()
+            context['keys'] = keys
         return context 
 
 

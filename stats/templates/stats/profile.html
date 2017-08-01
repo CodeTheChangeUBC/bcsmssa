@@ -7,40 +7,54 @@
 
 {% block body %}
 <div class='container profile-page'>
-    <h2>Welcome, {{ user.username }}.</h2>
+    {% if object == user %}
+        <h2>Welcome, {{ object.username }}.</h2>
+    {% else %}
+        <h2>{{ object.username }}</h2>
+    {% endif %}
 
-        {% if user.is_superuser %}
-            <p>Currently logged in as the admin.</p><br>
+    <!-- Display keys if superuser -->
+    {% if user.is_superuser and user == object %}
+        <p>Currently logged in as the admin.</p><br>
 
-            <button id="addkeybtn" class='btn'>Add new invite code</button>
-            <br><br>
-            <p>Invite Keys:</p>
-            <div id="keys"></div>
-            {% for k in keys %}
-                <div class="{{ k.id }}_div">
-                    <li>
-                        {{ k.id }} | <a id="{{ k.id }}" class="del_btn">Delete key</a>
-                    </li>
-                </div>
-            {% endfor %}
-        {% endif %}
-
-        <h4>List of staff:</h4>
-        {% for u in users %}
-            <li><a href="/profile/{{ u.username }}">{{ u.username }}</a></li>
+        <button id="addkeybtn" class='btn'>Add new invite code</button>
+        <br><br>
+        <p>Invite Keys:</p>
+        <div id="keys"></div>
+        {% for k in keys %}
+            <div class="{{ k.id }}_div">
+                <li>
+                    {{ k.id }} | <a id="{{ k.id }}" class='del_btn'>Delete key</a>
+                </li>
+            </div>
         {% endfor %}
+        <hr>
+    {% endif %}
 
-        <h4>Clients input by {{ user.username }}</h4>
-        {% for client in user.client_set.all %}
+    <div class='col-sm-6'>
+        <!-- Display clients input by this user  -->
+        {% if object == user %}
+            <h4>Clients input by you.</h4>
+        {% else %}
+            <h4>Clients input by {{ object.username }}</h4>
+        {% endif %}
+        {% for client in object.client_set.all %}
             <li>{{ client.client_number }}</li>
         {% endfor %}
+    </div>
 
-
+    <div class='col-sm-6'>
+        <!-- Display staff -->
+        <h4>List of staff:</h4>
+        {% for u in users %}
+            <li><a href="{% url 'user_show' u.id %}">{{ u.username }}</a></li>
+        {% endfor %}
+    </div>    
 
 </div>
 {% endblock %}
 
-{% if user.is_superuser %}
+{% if object.is_superuser and user == object %}
 {% block javascript %}
     <script>
         var postdata= { 'csrfmiddlewaretoken': '{{ csrf_token }}' }

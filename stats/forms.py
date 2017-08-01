@@ -8,7 +8,7 @@ from .models import UserProfile, Client, RequestedService, Referral, CurrentSitu
 
 
 class UserCreationForm(UserCreationForm):
-    username = forms.EmailField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Email"))
+    username = forms.CharField(widget=forms.TextInput(attrs={'maxlength':75}), label=_("Username"))
     invite_key = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength':75, 'required': "required"}), label=_("Invite Key"))
 
 class BootstrapModelForm(ModelForm):

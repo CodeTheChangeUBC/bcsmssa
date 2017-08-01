@@ -15,6 +15,10 @@ tests/.coverage
 build/
 tests/report/
 .DS_Store
+venv
+*.pyc
+staticfiles
+.env
 
 
 # Pycharm files

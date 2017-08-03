@@ -12,6 +12,4 @@ $(document).ready(function() {
 	for (var i=0; i<tables.length; i++) {
 		$(tables[i]).DataTable();	
 	}
-	
-
 });

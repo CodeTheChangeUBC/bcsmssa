@@ -167,7 +167,7 @@ class Referral(models.Model):
     def __iter__(self):
         for field in self._meta.fields:
             val = field.value_to_string(self)
-            if field.name == 'client1':
+            if field.name == 'client':
                 yield Client.objects.get(pk=int(val))
             else:
                 yield val
@@ -233,14 +233,14 @@ class Abuse ( models.Model ):
     family_context      = models.CharField(max_length=12, blank=True, verbose_name="Family Context")
 
     def __str__(self):
-        return str(self.client)
+        return str(self.client.client_number)
 
     # Iterate over field values. 
     def __iter__(self):
         for field in self._meta.fields:
             if field.name != 'id':
                 val = field.value_to_string(self)
-                if field.name == 'client1':
+                if field.name == 'client':
                     yield Client.objects.get(pk=int(val))
                 else:
                     yield val
@@ -258,7 +258,7 @@ class Abuse ( models.Model ):
 
 class CurrentSituation( models.Model ):
     # Abuse Foreign key
-    abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Associated Client ID")
+    abuse               = models.ForeignKey( Abuse, on_delete=models.CASCADE, verbose_name="Associated Client Number")
 
     # Sexual Orientation Choices
     # Set variables for easier stats gathering
@@ -311,9 +311,9 @@ class CurrentSituation( models.Model ):
     purpose1            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 1st Med.")
     medication2         = models.CharField(max_length=50,   blank=True, verbose_name="Medication 2")
     purpose2            = models.CharField(max_length=150,  blank=True, verbose_name="Purpose of 2nd Med.")
-    sexual_orientation  = models.CharField(max_length=10,   blank=True, verbose_name="Sexual Orientation" ,choices=sex_choices)
-    income              = models.CharField(max_length=50,   blank=True, verbose_name="Income", choices=income_choices)
-    level_of_education  = models.CharField(max_length=50,   blank=True, verbose_name="Level of Education", choices=edu_choices)
+    sexual_orientation  = models.CharField(max_length=10,   blank=True, verbose_name="Sexual Orientation" ,choices=sex_choices, null=True)
+    income              = models.CharField(max_length=50,   blank=True, verbose_name="Income", choices=income_choices, null=True)
+    level_of_education  = models.CharField(max_length=50,   blank=True, verbose_name="Level of Education", choices=edu_choices, null=True)
     profession          = models.CharField(max_length=50,   blank=True, verbose_name="Profession")
     in_treatment        = models.BooleanField(              blank=True, verbose_name="In Treatment?")
     

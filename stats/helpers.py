@@ -118,6 +118,7 @@ def charts():
     context['clients_by_age'] = ages()
     context['service_counts'] = services()
     context['referral_counts'] = referrals()
+    context['income_dist'] = incomes()
     return context
 
 def age_vs_abuse_chart():
@@ -157,4 +158,14 @@ def referrals():
     return PieChart(data_source, options={'title': "Referral Type",
                                             'width': 650,
                                             'is3D': True})
+
+def incomes():
+    """
+    Return pie chart containing income bracket info
+    """
+    data_source = SimpleDataSource(data=CurrentSituation.income_data())
+    return PieChart(data_source, options={'title': "Income Distribution",
+                                            'width': 650,
+                                            })
+
 

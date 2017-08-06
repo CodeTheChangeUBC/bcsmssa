@@ -80,7 +80,7 @@ class Client( models.Model ):
                 elif age <= 39: ages[3] += 1
                 elif age <= 49: ages[4] += 1
                 else: ages[5] += 1
-        data =  [
+        return  [
             ['Age', 'Range'],
             ['Less than 10', ages[0]],
             ['10 - 19', ages[1]],
@@ -89,7 +89,6 @@ class Client( models.Model ):
             ['40 - 49', ages[4]],
             ['50+', ages[5]]
         ]
-        return data
 
     # Override save method to store age on creation
     def save(self, *args, **kwargs):
@@ -404,6 +403,35 @@ class CurrentSituation( models.Model ):
                     yield Abuse.objects.get(pk=int(val))
                 else:
                     yield val
+
+    # Generate data for income distribution
+    @classmethod
+    def income_data(cls):
+        # Counter for different income brackets
+        incomes = [0,0,0,0,0,0,0,0]
+        for sitch in CurrentSituation.objects.all():
+            if sitch.income == CurrentSituation.inc1: incomes[0] += 1
+            elif sitch.income == CurrentSituation.inc2: incomes[1] += 1
+            elif sitch.income == CurrentSituation.inc3: incomes[2] += 1
+            elif sitch.income == CurrentSituation.inc4: incomes[3] += 1
+            elif sitch.income == CurrentSituation.inc5: incomes[4] += 1
+            elif sitch.income == CurrentSituation.inc6: incomes[5] += 1
+            elif sitch.income == CurrentSituation.inc7: incomes[6] += 1
+            elif sitch.income == CurrentSituation.inc8: incomes[7] += 1
+
+        return [
+            ["Income", "count"],
+            [CurrentSituation.inc1, incomes[0]],
+            [CurrentSituation.inc2, incomes[1]],
+            [CurrentSituation.inc3, incomes[2]],
+            [CurrentSituation.inc4, incomes[3]],
+            [CurrentSituation.inc5, incomes[4]],
+            [CurrentSituation.inc6, incomes[5]],
+            [CurrentSituation.inc7, incomes[6]],
+            [CurrentSituation.inc8, incomes[7]],
+        ]
+
+
 
 
     @classmethod

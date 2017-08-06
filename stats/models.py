@@ -65,6 +65,36 @@ class Client( models.Model ):
         return statistics.median(ages)
 
 
+    # Return data for age vs number of abuses
+    @classmethod
+    def age_vs_abuse_data(cls):
+        # Array contains age intervals
+        # Each interval is 10 years starting at 0-9
+        ages = [0,0,0,0,0,0]
+        abuses = [0,0,0,0,0,0]
+        for client in Client.objects.all():
+            num = client.number_of_abuses
+            if abuses:
+                age = client.age
+                if age:
+                    if age <= 9: ages[0] += 1; abuses[0] += num
+                    elif age <= 19: ages[1] += 1; abuses[1] += num
+                    elif age <= 29: ages[2] += 1; abuses[2] += num
+                    elif age <= 39: ages[3] += 1; abuses[3] += num
+                    elif age <= 49: ages[4] += 1; abuses[4] += num
+                    else: ages[5] += 1; abuses[5] += num
+        return  [
+            ['Age', 'Average Number of Abuses'],
+            ['Less than 10', round(abuses[0]/float(ages[0]),2) if ages[0]!=0 else 0],
+            ['10 - 19', round(abuses[1]/float(ages[1]),2) if ages[1]!=0 else 0],
+            ['20 - 29', round(abuses[2]/float(ages[2]),2) if ages[2]!=0 else 0],
+            ['30 - 39', round(abuses[3]/float(ages[3]),2) if ages[3]!=0 else 0],
+            ['40 - 49', round(abuses[4]/float(ages[4]),2) if ages[4]!=0 else 0],
+            ['50+',     round(abuses[5]/float(ages[5]),2) if ages[5]!=0 else 0],
+        ]
+
+
+
     # Create bins for pie chart based on user ages
     @classmethod
     def age_data(cls):
@@ -403,6 +433,30 @@ class CurrentSituation( models.Model ):
                     yield Abuse.objects.get(pk=int(val))
                 else:
                     yield val
+
+    # Generate data for education distribution
+    @classmethod
+    def education_data(cls):
+        ed_level = [0,0,0,0,0,0]
+        for sitch in CurrentSituation.objects.all():
+            if sitch.level_of_education == CurrentSituation.edu1: ed_level[0] += 1
+            elif sitch.level_of_education == CurrentSituation.edu2: ed_level[1] += 1
+            elif sitch.level_of_education == CurrentSituation.edu3: ed_level[2] += 1
+            elif sitch.level_of_education == CurrentSituation.edu4: ed_level[3] += 1
+            elif sitch.level_of_education == CurrentSituation.edu5: ed_level[4] += 1
+            elif sitch.level_of_education == CurrentSituation.edu6: ed_level[5] += 1
+
+        return [
+            ["Education Level", "count"],
+            [CurrentSituation.edu1, ed_level[0]],
+            [CurrentSituation.edu2, ed_level[1]],
+            [CurrentSituation.edu3, ed_level[2]],
+            [CurrentSituation.edu4, ed_level[3]],
+            [CurrentSituation.edu5, ed_level[4]],
+            [CurrentSituation.edu6, ed_level[5]],
+        ]
+
+
 
     # Generate data for income distribution
     @classmethod

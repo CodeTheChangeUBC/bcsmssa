@@ -114,11 +114,12 @@ def charts():
     Generate all charts for homepage
     """
     context = {}
-    context['age_vs_abuses'] = age_vs_abuse_chart()
-    context['clients_by_age'] = ages()
-    context['service_counts'] = services()
-    context['referral_counts'] = referrals()
-    context['income_dist'] = incomes()
+    context['age_vs_abuses']    = age_vs_abuse_chart()
+    context['clients_by_age']   = ages()
+    context['service_counts']   = services()
+    context['referral_counts']  = referrals()
+    context['income_dist']      = incomes()
+    context['edu_dist']         = educations()
     return context
 
 def age_vs_abuse_chart():
@@ -127,11 +128,13 @@ def age_vs_abuse_chart():
     """
     clients = Client.objects.all()
     data_source = ModelDataSource(clients, fields=['age', 'number_of_abuses'])
+    data_source = SimpleDataSource(data=Client.age_vs_abuse_data())
     return ColumnChart(data_source, options={'title': 'Age and Number of Abuses', 
                                             'legend': 'none', 
                                             'width': 650,
-                                            'vAxis': {'title': 'Number of Abuses'},
-                                            'hAxis': {'title': 'Age'}})
+                                            'vAxis': {'title': 'Average number of abuses'},
+                                            'hAxis': {'title': 'Age'},
+                                            })
 
 def ages():
     """
@@ -168,4 +171,13 @@ def incomes():
                                             'width': 650,
                                             })
 
+def educations():
+    """
+    Return pie chart containing education info
+    """
+    data_source = SimpleDataSource(data=CurrentSituation.education_data())
+    return PieChart(data_source, options={'title': "Education Distribution",
+                                            'width': 650,
+                                            'is3D': True,
+                                            })
 

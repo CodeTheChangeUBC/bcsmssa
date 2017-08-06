@@ -13,9 +13,21 @@
 
     <div class='container basic-stats'>
     	<h3>Basic Statistics</h3>
-    	Number of Clients: <strong>{{ num_clients }}</strong> <br>
-    	Average number of abuses: <strong>{{ avg_abuses }}</strong> <br>
-    	Total Number of Abuses: <strong>{{ num_abuses }}</strong>
+        <div class='col-sm-4'>
+        	Number of clients: <strong>{{ num_clients }}</strong> <br>
+        	Average number of abuses: <strong>{{ avg_abuses }}</strong> <br>
+        	Median number of abuses: <strong>{{ median_abuses }}</strong><br>
+        </div>
+        <div class='col-sm-4'>
+            Total number of abuses: <strong>{{ num_abuses }}</strong><br>
+            Average client age: <strong>{{ avg_age }}</strong><br>
+            Median client age: <strong>{{ median_age }}</strong>
+        </div>
+        <div class='col-sm-4'>
+            Average abuse length: <strong>{{ abuse_length }} year(s)</strong><br>
+            Median abuse length: <strong>{{ median_abuse_length }} year(s)</strong><br>
+            Average time until reported: <strong>{{ reported_length }} year(s)</strong>
+        </div>
     </div>
 
     <div class='container graphs'>

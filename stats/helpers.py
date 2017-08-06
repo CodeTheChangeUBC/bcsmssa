@@ -95,10 +95,18 @@ def basic_stats():
     stats = {}
     client_count = Client.objects.all().count()
     num_abuses = Client.total_abuses()
-    stats['num_clients'] = client_count
-    stats['num_abuses'] = num_abuses
-    stats['avg_abuses'] = round(float(num_abuses)/client_count,2) if client_count!=0 else 0
+    stats['num_clients']   = client_count
+    stats['num_abuses']    = num_abuses
+    stats['avg_abuses']    = round(float(num_abuses)/client_count,2) if client_count!=0 else 0
+    stats['median_abuses'] = Client.median_abuses()
+    stats['avg_age']       = Client.average_age()
+    stats['median_age']    = Client.median_age()
+    stats['abuse_length']  = Abuse.average_abuse_length()
+    stats['reported_length'] = Abuse.avg_time_until_reported()
+    stats['median_abuse_length'] = Abuse.median_abuse_length()
+
     return stats
+
 
 
 def charts():

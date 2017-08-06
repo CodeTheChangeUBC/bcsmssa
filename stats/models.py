@@ -4,6 +4,7 @@ from django.db import models
 from functools import reduce
 import uuid
 import datetime
+import statistics
 
 
 class UserProfile( models.Model ):
@@ -27,7 +28,7 @@ class Client( models.Model ):
     def __iter__(self):
         for field in self._meta.fields:
             if field.name != 'id' and field.name != 'user':
-                yield field.value_to_string(self)
+                yield field.value_to_string(self)    
         
     @classmethod
     def create(cls, num, dob, age, num_abuses, user):
@@ -42,6 +43,27 @@ class Client( models.Model ):
     @classmethod
     def total_abuses(cls):
         return reduce(lambda x,y: x+y.number_of_abuses, Client.objects.all(), 0)
+
+    # Return median of number of abuses
+    @classmethod 
+    def median_abuses(cls):
+        abuses = list(map(lambda x: x.number_of_abuses, Client.objects.all()))
+        return statistics.median(abuses)
+
+    # Return average age of all clients
+    @classmethod
+    def average_age(cls):
+        if Client.objects.all().count() == 0:
+            return 0
+        age = reduce(lambda x,y: x+y.age, Client.objects.all(), 0)
+        return round(age/float(Client.objects.all().count()),2)
+
+    # Return median age of all client
+    @classmethod
+    def median_age(cls):
+        ages = list(map(lambda x: x.age, Client.objects.all()))
+        return statistics.median(ages)
+
 
     # Create bins for pie chart based on user ages
     @classmethod
@@ -244,6 +266,58 @@ class Abuse ( models.Model ):
                     yield Client.objects.get(pk=int(val))
                 else:
                     yield val
+
+    # Return length of abuse (if recorded)
+    def length_of_abuse(self):
+        try: 
+            return int(self.stop_date) - int(self.start_date) 
+        except(ValueError):
+            return 0
+
+    # Return time until abuse was reported (if recorded)
+    def length_until_recorded(self):
+        try:
+            return int(self.reported_date) - int(self.stop_date)
+        except(ValueError):
+            return 0
+
+    # Return true if abuse has stop and end date
+    def abuse_dates(self):
+        if (not self.start_date) or (not self.stop_date):
+            return 0
+        return 1
+
+    # Return true if abuse has reported and end dates
+    def reported_dates(self):
+        if (not self.reported_date) or (not self.stop_date):
+            return 0
+        return 1
+
+    # Return median abuse length
+    @classmethod
+    def median_abuse_length(cls):
+        lengths = list(map(lambda x: x.length_of_abuse(), Abuse.objects.all()))
+        return statistics.median(lengths)
+
+
+    # Return average time until abuse reported 
+    @classmethod
+    def avg_time_until_reported(self):
+        count = reduce(lambda x,y: x+y.reported_dates(), Abuse.objects.all(),0)
+        if count == 0:
+            return 0
+        length = reduce(lambda x,y: x+y.length_until_recorded(), Abuse.objects.all(), 0)
+        return round(length/float(count),2)
+
+
+    # Return average length of abuse
+    @classmethod
+    def average_abuse_length(cls):
+        count = reduce(lambda x,y: x+y.abuse_dates(), Abuse.objects.all(),0)
+        if count == 0:
+            return 0
+        length = reduce(lambda x,y: x+y.length_of_abuse(), Abuse.objects.all(), 0)
+        return round(length/float(count),2)
 
 
     @classmethod
